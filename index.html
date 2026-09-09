@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اتحاد ویلفیئر فاؤنڈیشن - بستی بلوچاں والی</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: 'Noto Naskh Arabic', serif; background-color: #f0f2f5; }
@@ -19,7 +15,6 @@
 </head>
 <body class="text-gray-900 pb-12">
 
-    <!-- Intro Splash Screen with Custom Logo Video -->
     <div id="splashScreen" class="fixed inset-0 z-50 bg-slate-950 flex flex-col items-center justify-center transition-opacity duration-700">
         <video autoplay loop muted playsinline class="w-44 h-44 rounded-full shadow-2xl border-4 border-green-500 mb-4 object-cover">
             <source src="video_1.mp4" type="video/mp4">
@@ -28,11 +23,9 @@
         <p class="text-green-400 text-xs mt-1">بستی بلوچاں والی کمیٹی</p>
     </div>
 
-    <!-- Header Navigation -->
     <header class="bg-white shadow sticky top-0 z-40 border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-14">
             <div class="flex items-center space-x-2 space-x-reverse">
-                <!-- Circular Logo Video in Header -->
                 <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-green-600 shadow flex items-center justify-center bg-black">
                     <video autoplay loop muted playsinline class="w-full h-full object-cover">
                         <source src="video_1.mp4" type="video/mp4">
@@ -44,12 +37,13 @@
                 </div>
             </div>
 
-            <button onclick="switchTab('posts')" class="bg-green-700 text-white px-3 py-1.5 rounded-full text-xs font-semibold shadow hover:bg-green-800 transition">
-                <i class="fa-solid fa-pen ml-1"></i> پوسٹ کریں
-            </button>
+            <div class="flex items-center space-x-2 space-x-reverse">
+                <button onclick="openAdminModal()" class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full text-xs font-semibold hover:bg-gray-200 transition border">
+                    <i class="fa-solid fa-user-shield text-green-700 ml-1"></i> ایڈمن لاگ ان
+                </button>
+            </div>
         </div>
 
-        <!-- Navigation Tabs -->
         <nav class="flex justify-around bg-white border-t border-gray-200 text-gray-600 font-semibold text-xs sm:text-sm">
             <button onclick="switchTab('posts')" id="tab-posts" class="tab-btn active py-3 flex-1 text-center">پوسٹس</button>
             <button onclick="switchTab('team')" id="tab-team" class="tab-btn py-3 flex-1 text-center">عہدیداران</button>
@@ -59,10 +53,16 @@
         </nav>
     </header>
 
-    <!-- Main Container -->
     <div class="max-w-2xl mx-auto px-2 sm:px-4 mt-4">
 
-        <!-- TAB 1: POSTS FEED -->
+        <div id="adminPanelBanner" class="hidden bg-amber-100 border border-amber-300 text-amber-900 p-3 rounded-lg mb-4 text-xs flex justify-between items-center">
+            <div>
+                <i class="fa-solid fa-user-check text-base ml-1"></i>
+                <strong>آپ بطور ایڈمن لاگ ان ہیں!</strong> زیرِ التواء (Pending) پوسٹس کی منظوری دیں۔
+            </div>
+            <button onclick="logoutAdmin()" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">لاگ آؤٹ</button>
+        </div>
+
         <div id="sec-posts">
             <div class="bg-white rounded-lg shadow p-4 mb-4 border border-gray-200">
                 <form id="postForm" onsubmit="handlePostSubmit(event)" class="space-y-3">
@@ -84,7 +84,6 @@
             <div id="feedPosts" class="space-y-4"></div>
         </div>
 
-        <!-- TAB 2: TEAM / MEMBERS -->
         <div id="sec-team" class="hidden space-y-4">
             <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
                 <h3 class="font-bold text-lg text-green-800 border-b pb-2 mb-4 text-center">کمیٹی کے عہدیداران و لیڈرشپ</h3>
@@ -107,7 +106,6 @@
             </div>
         </div>
 
-        <!-- TAB 3: BLOOD DONORS -->
         <div id="sec-blood" class="hidden space-y-4">
             <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
                 <div class="flex items-center space-x-2 space-x-reverse border-b pb-2 mb-4">
@@ -124,7 +122,6 @@
             </div>
         </div>
 
-        <!-- TAB 4: ABOUT -->
         <div id="sec-about" class="hidden">
             <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
                 <h3 class="font-bold text-lg text-gray-900 border-b pb-2 mb-3">سرکاری تصدیق و تعارف</h3>
@@ -132,7 +129,6 @@
             </div>
         </div>
 
-        <!-- TAB 5: RULES -->
         <div id="sec-rules" class="hidden">
             <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
                 <h3 class="font-bold text-lg text-green-800 border-b pb-2 mb-3 text-center">انتظامیہ کے 3 بنیادی اصول</h3>
@@ -146,12 +142,26 @@
 
     </div>
 
+    <div id="adminModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-sm w-full p-5 space-y-4">
+            <h3 class="font-bold text-gray-900 border-b pb-2">ایڈمن لاگ ان (انتظامیہ)</h3>
+            <p class="text-xs text-gray-600">پوسٹس کی منظوری اور ڈیلیٹ کرنے کے لیے پاس ورڈ درج کریں:</p>
+            <input type="password" id="adminPassInput" placeholder="ایڈمن پاس ورڈ درج کریں" class="w-full border rounded p-2 text-sm">
+            <div class="flex justify-end space-x-2 space-x-reverse">
+                <button onclick="closeAdminModal()" class="px-3 py-1 bg-gray-200 rounded text-xs">منسوخ</button>
+                <button onclick="verifyAdmin()" class="px-4 py-1 bg-green-700 text-white rounded text-xs">لاگ ان</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const SUPABASE_URL = "https://xyjlqphisqakfpnmiuqo.supabase.co";
         const SUPABASE_KEY = "sb_publishable_bZ51g0UM-u_etT6hPRzrMA_cf2ab2im";
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Splash Screen Timer
+        let isAdmin = false;
+
+        // Splash Screen
         setTimeout(() => {
             const splash = document.getElementById('splashScreen');
             if (splash) {
@@ -159,6 +169,28 @@
                 setTimeout(() => splash.style.display = 'none', 700);
             }
         }, 2500);
+
+        function openAdminModal() { document.getElementById('adminModal').classList.remove('hidden'); }
+        function closeAdminModal() { document.getElementById('adminModal').classList.add('hidden'); }
+
+        function verifyAdmin() {
+            const pass = document.getElementById('adminPassInput').value;
+            if (pass === 'etihad123') { // Admin Password
+                isAdmin = true;
+                closeAdminModal();
+                document.getElementById('adminPanelBanner').classList.remove('hidden');
+                alert('آپ کامیاب لاگ ان ہو چکے ہیں۔ اب آپ پوسٹس منظور یا ڈیلیٹ کر سکتے ہیں۔');
+                fetchPosts();
+            } else {
+                alert('غلط پاس ورڈ!');
+            }
+        }
+
+        function logoutAdmin() {
+            isAdmin = false;
+            document.getElementById('adminPanelBanner').classList.add('hidden');
+            fetchPosts();
+        }
 
         function switchTab(tabName) {
             ['posts', 'team', 'blood', 'about', 'rules'].forEach(t => {
@@ -173,18 +205,30 @@
             const loading = document.getElementById('loading');
             const postsContainer = document.getElementById('feedPosts');
             
-            const { data: posts, error } = await supabaseClient.from('posts').select('*').order('id', { ascending: false });
+            let query = supabaseClient.from('posts').select('*').order('id', { ascending: false });
+            
+            // If normal user, show only APPROVED posts. If admin, show ALL (pending + approved)
+            if (!isAdmin) {
+                query = query.eq('status', 'approved');
+            }
+
+            const { data: posts, error } = await query;
             loading.style.display = 'none';
 
             if (error) { postsContainer.innerHTML = `<p class="text-center text-red-500 text-xs">پوسٹس لوڈ کرنے میں مسئلہ آیا۔</p>`; return; }
 
             postsContainer.innerHTML = '';
+            if (posts.length === 0) {
+                postsContainer.innerHTML = `<p class="text-center text-gray-500 text-xs py-4">کوئی پوسٹ موجود نہیں ہے۔</p>`;
+                return;
+            }
+
             for (let post of posts) {
                 const { data: comments } = await supabaseClient.from('comments').select('*').eq('post_id', post.id);
                 const commentsCount = comments ? comments.length : 0;
 
                 const postCard = document.createElement('div');
-                postCard.className = "bg-white rounded-lg shadow border border-gray-200 overflow-hidden mb-4";
+                postCard.className = "bg-white rounded-lg shadow border border-gray-200 overflow-hidden mb-4 relative";
 
                 let mediaHTML = '';
                 if (post.media_url) {
@@ -195,16 +239,24 @@
                     }
                 }
 
-                let commentsListHTML = '';
-                if (comments && comments.length > 0) {
-                    commentsListHTML = comments.map(c => `
-                        <div class="bg-gray-100 p-2 rounded-lg text-xs mb-1">
-                            <span class="font-bold text-gray-800">${c.user_name}:</span> <span>${c.comment_text}</span>
+                let adminControlsHTML = '';
+                if (isAdmin) {
+                    const isPending = post.status === 'pending';
+                    adminControlsHTML = `
+                        <div class="bg-gray-100 p-2 border-b flex justify-between items-center text-xs">
+                            <span class="font-bold ${isPending ? 'text-amber-600' : 'text-green-600'}">
+                                ${isPending ? '⏳ غیر منظور شدہ (Pending)' : '✅ منظور شدہ (Approved)'}
+                            </span>
+                            <div class="space-x-1 space-x-reverse">
+                                ${isPending ? `<button onclick="approvePost(${post.id})" class="bg-green-700 text-white px-2 py-1 rounded">منظور کریں (Approve)</button>` : ''}
+                                <button onclick="deletePost(${post.id})" class="bg-red-600 text-white px-2 py-1 rounded">ڈیلیٹ کریں</button>
+                            </div>
                         </div>
-                    `).join('');
+                    `;
                 }
 
                 postCard.innerHTML = `
+                    ${adminControlsHTML}
                     <div class="p-4 flex items-center space-x-3 space-x-reverse border-b border-gray-100">
                         <div class="w-10 h-10 rounded-full bg-green-100 text-green-700 flex items-center justify-center font-bold">
                             <i class="fa-solid fa-user"></i>
@@ -217,7 +269,6 @@
                     ${mediaHTML}
                     <div class="p-4 text-sm text-gray-800"><p>${post.content || ''}</p></div>
 
-                    <!-- Actions Bar -->
                     <div class="border-t border-gray-100 px-2 py-2 flex justify-around text-gray-600 text-xs font-semibold bg-gray-50">
                         <button onclick="likePost(${post.id}, ${post.likes_count || 0})" class="flex items-center space-x-1 space-x-reverse hover:text-green-700">
                             <i class="fa-regular fa-thumbs-up text-base"></i>
@@ -233,9 +284,10 @@
                         </button>
                     </div>
 
-                    <!-- Comments Box -->
                     <div id="comment-sec-${post.id}" class="hidden p-3 border-t bg-gray-50">
-                        <div id="comments-list-${post.id}" class="mb-2">${commentsListHTML}</div>
+                        <div class="mb-2">
+                            ${(comments || []).map(c => `<div class="bg-gray-100 p-2 rounded-lg text-xs mb-1"><strong>${c.user_name}:</strong> ${c.comment_text}</div>`).join('')}
+                        </div>
                         <div class="flex space-x-2 space-x-reverse">
                             <input type="text" id="c-name-${post.id}" placeholder="نام" class="w-1/3 border rounded p-1 text-xs">
                             <input type="text" id="c-text-${post.id}" placeholder="کمنٹ لکھیں..." class="w-2/3 border rounded p-1 text-xs">
@@ -244,6 +296,18 @@
                     </div>
                 `;
                 postsContainer.appendChild(postCard);
+            }
+        }
+
+        async function approvePost(postId) {
+            const { error } = await supabaseClient.from('posts').update({ status: 'approved' }).eq('id', postId);
+            if (!error) fetchPosts();
+        }
+
+        async function deletePost(postId) {
+            if (confirm('کیا آپ واقعی اس پوسٹ کو ڈیلیٹ کرنا چاہتے ہیں؟')) {
+                const { error } = await supabaseClient.from('posts').delete().eq('id', postId);
+                if (!error) fetchPosts();
             }
         }
 
@@ -294,10 +358,18 @@
                 }
             }
 
-            await supabaseClient.from('posts').insert([{ title: title, content: text, media_url: media_url, media_type: media_type }]);
+            await supabaseClient.from('posts').insert([{ 
+                title: title, 
+                content: text, 
+                media_url: media_url, 
+                media_type: media_type,
+                status: 'pending' // Posts will need approval
+            }]);
+
             document.getElementById('postForm').reset();
             submitBtn.disabled = false;
             submitBtn.innerText = "شائع کریں";
+            alert("آپ کی پوسٹ انتظامیہ کو موصول ہو گئی ہے۔ جانچ پڑتال/منظوری کے بعد شائع کر دی جائے گی۔");
             fetchPosts();
         }
 
