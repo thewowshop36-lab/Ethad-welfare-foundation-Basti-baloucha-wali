@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اتحاد ویلفیئر فاؤنڈیشن - بستی بلوچاں والی</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: 'Noto Naskh Arabic', serif; background-color: #f0f2f5; }
@@ -15,6 +19,7 @@
 </head>
 <body class="text-gray-900 pb-12">
 
+    <!-- Intro Splash Screen with Logo Video -->
     <div id="splashScreen" class="fixed inset-0 z-50 bg-slate-950 flex flex-col items-center justify-center transition-opacity duration-700">
         <video autoplay loop muted playsinline class="w-44 h-44 rounded-full shadow-2xl border-4 border-green-500 mb-4 object-cover">
             <source src="video_1.mp4" type="video/mp4">
@@ -23,6 +28,7 @@
         <p class="text-green-400 text-xs mt-1">بستی بلوچاں والی کمیٹی</p>
     </div>
 
+    <!-- Header Navigation -->
     <header class="bg-white shadow sticky top-0 z-40 border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-14">
             <div class="flex items-center space-x-2 space-x-reverse">
@@ -38,12 +44,13 @@
             </div>
 
             <div class="flex items-center space-x-2 space-x-reverse">
-                <button onclick="openAdminModal()" class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full text-xs font-semibold hover:bg-gray-200 transition border">
-                    <i class="fa-solid fa-user-shield text-green-700 ml-1"></i> ایڈمن لاگ ان
+                <button id="adminLoginBtn" onclick="openAdminModal()" class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full text-xs font-semibold hover:bg-gray-200 transition border">
+                    <i class="fa-solid fa-user-shield text-green-700 ml-1"></i> ایڈمن ڈیش بورڈ
                 </button>
             </div>
         </div>
 
+        <!-- Navigation Tabs -->
         <nav class="flex justify-around bg-white border-t border-gray-200 text-gray-600 font-semibold text-xs sm:text-sm">
             <button onclick="switchTab('posts')" id="tab-posts" class="tab-btn active py-3 flex-1 text-center">پوسٹس</button>
             <button onclick="switchTab('team')" id="tab-team" class="tab-btn py-3 flex-1 text-center">عہدیداران</button>
@@ -53,16 +60,19 @@
         </nav>
     </header>
 
+    <!-- Main Container -->
     <div class="max-w-2xl mx-auto px-2 sm:px-4 mt-4">
 
+        <!-- Admin Control Banner -->
         <div id="adminPanelBanner" class="hidden bg-amber-100 border border-amber-300 text-amber-900 p-3 rounded-lg mb-4 text-xs flex justify-between items-center">
             <div>
                 <i class="fa-solid fa-user-check text-base ml-1"></i>
-                <strong>آپ بطور ایڈمن لاگ ان ہیں!</strong> زیرِ التواء (Pending) پوسٹس کی منظوری دیں۔
+                <strong>ایڈمن موڈ آن ہے!</strong> آپ یہاں سے تعارف، عہدیداران، اور تمام پوسٹس تبدیل کر سکتے ہیں۔
             </div>
             <button onclick="logoutAdmin()" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">لاگ آؤٹ</button>
         </div>
 
+        <!-- TAB 1: POSTS FEED -->
         <div id="sec-posts">
             <div class="bg-white rounded-lg shadow p-4 mb-4 border border-gray-200">
                 <form id="postForm" onsubmit="handlePostSubmit(event)" class="space-y-3">
@@ -84,69 +94,97 @@
             <div id="feedPosts" class="space-y-4"></div>
         </div>
 
+        <!-- TAB 2: TEAM / MEMBERS -->
         <div id="sec-team" class="hidden space-y-4">
+            <!-- Add Team Member (Admin Only) -->
+            <div id="adminTeamForm" class="hidden bg-white rounded-lg shadow p-4 border border-green-300 mb-4">
+                <h4 class="font-bold text-sm text-green-800 border-b pb-2 mb-3">+ نیا عہدیدار یا ممبر شامل کریں</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                    <input type="text" id="tmName" placeholder="عہدیدار کا نام" class="border p-2 rounded">
+                    <input type="text" id="tmRole" placeholder="عہدہ (مثلاً صدر، نائب صدر)" class="border p-2 rounded">
+                    <input type="text" id="tmPhone" placeholder="فون نمبر (اختاری)" class="border p-2 rounded">
+                </div>
+                <button onclick="addTeamMember()" class="mt-3 bg-green-700 text-white px-4 py-1.5 rounded text-xs font-bold">شامل کریں</button>
+            </div>
+
             <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
                 <h3 class="font-bold text-lg text-green-800 border-b pb-2 mb-4 text-center">کمیٹی کے عہدیداران و لیڈرشپ</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div class="bg-green-50 p-3 rounded-lg border border-green-200 flex items-center space-x-3 space-x-reverse">
-                        <div class="w-10 h-10 rounded-full bg-green-700 text-white flex items-center justify-center font-bold">ص</div>
-                        <div>
-                            <h4 class="font-bold text-sm text-gray-900">صدر کمیٹی</h4>
-                            <p class="text-xs text-gray-600">اتحاد ویلفیئر فاؤنڈیشن</p>
-                        </div>
-                    </div>
-                    <div class="bg-green-50 p-3 rounded-lg border border-green-200 flex items-center space-x-3 space-x-reverse">
-                        <div class="w-10 h-10 rounded-full bg-green-700 text-white flex items-center justify-center font-bold">س</div>
-                        <div>
-                            <h4 class="font-bold text-sm text-gray-900">جنرل سیکرٹری</h4>
-                            <p class="text-xs text-gray-600">اتحاد ویلفیئر فاؤنڈیشن</p>
-                        </div>
-                    </div>
+                <div id="teamMemberList" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <p class="text-center text-xs text-gray-500 col-span-2">لیڈرز کی لسٹ لوڈ ہو رہی ہے...</p>
                 </div>
             </div>
         </div>
 
+        <!-- TAB 3: BLOOD DONORS -->
         <div id="sec-blood" class="hidden space-y-4">
-            <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
-                <div class="flex items-center space-x-2 space-x-reverse border-b pb-2 mb-4">
-                    <i class="fa-solid fa-droplet text-red-600 text-xl"></i>
-                    <h3 class="font-bold text-lg text-gray-900">بستی کے بلڈ ڈونرز (خون کے گروپس)</h3>
-                </div>
-                <div class="bg-red-50 p-3 rounded-lg border border-red-200 flex justify-between items-center text-xs">
-                    <div>
-                        <p class="font-bold text-gray-800">بلڈ ڈونر ڈائریکٹری</p>
-                        <p class="text-gray-500">بستی بلوچاں والی</p>
+            <div class="bg-white rounded-lg shadow p-4 border border-gray-200">
+                <h3 class="font-bold text-base text-red-700 mb-3 border-b pb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-droplet text-red-600"></i> بلڈ ڈونر بنیں (رجسٹریشن)
+                </h3>
+                <form id="bloodForm" onsubmit="handleBloodSubmit(event)" class="space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <input type="text" id="donorName" required placeholder="مکمل نام" class="border rounded p-2 text-xs">
+                        <select id="donorGroup" required class="border rounded p-2 text-xs">
+                            <option value="">بلڈ گروپ منتخب کریں</option>
+                            <option value="A+">A+</option><option value="A-">A-</option>
+                            <option value="B+">B+</option><option value="B-">B-</option>
+                            <option value="O+">O+</option><option value="O-">O-</option>
+                            <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                        </select>
+                        <input type="tel" id="donorPhone" required placeholder="فون نمبر" class="border rounded p-2 text-xs">
                     </div>
-                    <span class="bg-red-600 text-white px-3 py-1 rounded-full font-bold">O+ / A+ / B+</span>
+                    <button type="submit" id="bloodSubmitBtn" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded text-xs font-bold">نام درج کریں</button>
+                </form>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
+                <h3 class="font-bold text-base text-gray-900 border-b pb-2 mb-4">بستی کے بلڈ ڈونرز کی فہرست</h3>
+                <div id="bloodList" class="space-y-2"></div>
+            </div>
+        </div>
+
+        <!-- TAB 4: ABOUT -->
+        <div id="sec-about" class="hidden">
+            <div class="bg-white rounded-lg shadow p-5 border border-gray-200 space-y-3">
+                <h3 class="font-bold text-lg text-gray-900 border-b pb-2">سرکاری تصدیق و تعارف</h3>
+                <div id="aboutContentDisplay" class="text-sm text-gray-700 leading-relaxed">
+                    یہ فاؤنڈیشن ہماری بستی بلوچاں والی کی فلاح و بہبود، تعلیمی، صحتی اور باہمی تعاون کے امور کو منظم انداز میں چلانے کے لیے قائم کی گئی ہے۔
+                </div>
+                <!-- Admin Edit About Area -->
+                <div id="adminAboutEdit" class="hidden pt-3 border-t space-y-2">
+                    <label class="font-bold text-xs text-green-800">تعارف کی تحریر تبدیل کریں:</label>
+                    <textarea id="aboutTextarea" rows="4" class="w-full border rounded p-2 text-xs"></textarea>
+                    <button onclick="saveAboutContent()" class="bg-green-700 text-white px-3 py-1 rounded text-xs font-bold">محفوظ (Save) کریں</button>
                 </div>
             </div>
         </div>
 
-        <div id="sec-about" class="hidden">
-            <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
-                <h3 class="font-bold text-lg text-gray-900 border-b pb-2 mb-3">سرکاری تصدیق و تعارف</h3>
-                <p class="text-sm text-gray-700 leading-relaxed">یہ فاؤنڈیشن ہماری بستی بلوچاں والی کی فلاح و بہبود، تعلیمی، صحتی اور باہمی تعاون کے امور کو منظم انداز میں چلانے کے لیے قائم کی گئی ہے۔</p>
-            </div>
-        </div>
-
+        <!-- TAB 5: RULES -->
         <div id="sec-rules" class="hidden">
-            <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
-                <h3 class="font-bold text-lg text-green-800 border-b pb-2 mb-3 text-center">انتظامیہ کے 3 بنیادی اصول</h3>
-                <div class="space-y-2 text-xs sm:text-sm text-gray-700">
+            <div class="bg-white rounded-lg shadow p-5 border border-gray-200 space-y-3">
+                <h3 class="font-bold text-lg text-green-800 border-b pb-2 text-center">انتظامیہ کے اصول و ضوابط</h3>
+                <div id="rulesContentDisplay" class="space-y-2 text-xs sm:text-sm text-gray-700">
                     <div class="p-2 bg-amber-50 rounded"><strong>1. اخلاص:</strong> صرف اور صرف اللہ تعالیٰ کی رضا کے لیے خدمت۔</div>
                     <div class="p-2 bg-blue-50 rounded"><strong>2. انصاف:</strong> تمام معاملات میں بلا تفریق مساوات۔</div>
                     <div class="p-2 bg-green-50 rounded"><strong>3. برداشت:</strong> صبر اور حلم کے ساتھ خدمت سرانجام دینا۔</div>
+                </div>
+                <!-- Admin Edit Rules Area -->
+                <div id="adminRulesEdit" class="hidden pt-3 border-t space-y-2">
+                    <label class="font-bold text-xs text-green-800">اصول کی تحریر تبدیل کریں:</label>
+                    <textarea id="rulesTextarea" rows="4" class="w-full border rounded p-2 text-xs"></textarea>
+                    <button onclick="saveRulesContent()" class="bg-green-700 text-white px-3 py-1 rounded text-xs font-bold">محفوظ (Save) کریں</button>
                 </div>
             </div>
         </div>
 
     </div>
 
+    <!-- Admin Password Modal -->
     <div id="adminModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-lg shadow-xl max-w-sm w-full p-5 space-y-4">
             <h3 class="font-bold text-gray-900 border-b pb-2">ایڈمن لاگ ان (انتظامیہ)</h3>
-            <p class="text-xs text-gray-600">پوسٹس کی منظوری اور ڈیلیٹ کرنے کے لیے پاس ورڈ درج کریں:</p>
-            <input type="password" id="adminPassInput" placeholder="ایڈمن پاس ورڈ درج کریں" class="w-full border rounded p-2 text-sm">
+            <p class="text-xs text-gray-600">پاس ورڈ درج کریں:</p>
+            <input type="password" id="adminPassInput" placeholder="ایڈمن پاس ورڈ" class="w-full border rounded p-2 text-sm">
             <div class="flex justify-end space-x-2 space-x-reverse">
                 <button onclick="closeAdminModal()" class="px-3 py-1 bg-gray-200 rounded text-xs">منسوخ</button>
                 <button onclick="verifyAdmin()" class="px-4 py-1 bg-green-700 text-white rounded text-xs">لاگ ان</button>
@@ -161,7 +199,6 @@
 
         let isAdmin = false;
 
-        // Splash Screen
         setTimeout(() => {
             const splash = document.getElementById('splashScreen');
             if (splash) {
@@ -175,21 +212,25 @@
 
         function verifyAdmin() {
             const pass = document.getElementById('adminPassInput').value;
-            if (pass === 'etihad123') { // Admin Password
+            if (pass === 'etihad123') {
                 isAdmin = true;
                 closeAdminModal();
                 document.getElementById('adminPanelBanner').classList.remove('hidden');
-                alert('آپ کامیاب لاگ ان ہو چکے ہیں۔ اب آپ پوسٹس منظور یا ڈیلیٹ کر سکتے ہیں۔');
-                fetchPosts();
-            } else {
-                alert('غلط پاس ورڈ!');
-            }
+                document.getElementById('adminTeamForm').classList.remove('hidden');
+                document.getElementById('adminAboutEdit').classList.remove('hidden');
+                document.getElementById('adminRulesEdit').classList.remove('hidden');
+                alert('آپ بطور ایڈمن لاگ ان ہو چکے ہیں۔ اب آپ جو چاہیں تبدیل کر سکتے ہیں!');
+                fetchPosts(); fetchTeamMembers(); fetchBloodDonors();
+            } else { alert('غلط پاس ورڈ!'); }
         }
 
         function logoutAdmin() {
             isAdmin = false;
             document.getElementById('adminPanelBanner').classList.add('hidden');
-            fetchPosts();
+            document.getElementById('adminTeamForm').classList.add('hidden');
+            document.getElementById('adminAboutEdit').classList.add('hidden');
+            document.getElementById('adminRulesEdit').classList.add('hidden');
+            fetchPosts(); fetchTeamMembers(); fetchBloodDonors();
         }
 
         function switchTab(tabName) {
@@ -199,26 +240,25 @@
             });
             document.getElementById('sec-' + tabName).classList.remove('hidden');
             document.getElementById('tab-' + tabName).classList.add('active');
+            
+            if(tabName === 'team') fetchTeamMembers();
+            if(tabName === 'blood') fetchBloodDonors();
+            if(tabName === 'about' || tabName === 'rules') fetchDynamicSettings();
         }
 
+        // --- POSTS FUNCTIONS ---
         async function fetchPosts() {
             const loading = document.getElementById('loading');
             const postsContainer = document.getElementById('feedPosts');
-            
             let query = supabaseClient.from('posts').select('*').order('id', { ascending: false });
-            
-            // If normal user, show only APPROVED posts. If admin, show ALL (pending + approved)
-            if (!isAdmin) {
-                query = query.eq('status', 'approved');
-            }
+            if (!isAdmin) query = query.eq('status', 'approved');
 
             const { data: posts, error } = await query;
             loading.style.display = 'none';
 
             if (error) { postsContainer.innerHTML = `<p class="text-center text-red-500 text-xs">پوسٹس لوڈ کرنے میں مسئلہ آیا۔</p>`; return; }
-
             postsContainer.innerHTML = '';
-            if (posts.length === 0) {
+            if (!posts || posts.length === 0) {
                 postsContainer.innerHTML = `<p class="text-center text-gray-500 text-xs py-4">کوئی پوسٹ موجود نہیں ہے۔</p>`;
                 return;
             }
@@ -226,7 +266,6 @@
             for (let post of posts) {
                 const { data: comments } = await supabaseClient.from('comments').select('*').eq('post_id', post.id);
                 const commentsCount = comments ? comments.length : 0;
-
                 const postCard = document.createElement('div');
                 postCard.className = "bg-white rounded-lg shadow border border-gray-200 overflow-hidden mb-4 relative";
 
@@ -248,7 +287,7 @@
                                 ${isPending ? '⏳ غیر منظور شدہ (Pending)' : '✅ منظور شدہ (Approved)'}
                             </span>
                             <div class="space-x-1 space-x-reverse">
-                                ${isPending ? `<button onclick="approvePost(${post.id})" class="bg-green-700 text-white px-2 py-1 rounded">منظور کریں (Approve)</button>` : ''}
+                                ${isPending ? `<button onclick="approvePost(${post.id})" class="bg-green-700 text-white px-2 py-1 rounded">منظور کریں</button>` : ''}
                                 <button onclick="deletePost(${post.id})" class="bg-red-600 text-white px-2 py-1 rounded">ڈیلیٹ کریں</button>
                             </div>
                         </div>
@@ -299,38 +338,152 @@
             }
         }
 
-        async function approvePost(postId) {
-            const { error } = await supabaseClient.from('posts').update({ status: 'approved' }).eq('id', postId);
-            if (!error) fetchPosts();
+        // --- TEAM / MEMBERS DYNAMIC CONTROL ---
+        async function fetchTeamMembers() {
+            const container = document.getElementById('teamMemberList');
+            const { data: members, error } = await supabaseClient.from('team_members').select('*').order('id', { ascending: true });
+
+            if (error || !members || members.length === 0) {
+                container.innerHTML = `<p class="text-center text-xs text-gray-500 col-span-2 py-3">فی الحال کوئی عہدیدار درج نہیں ہے۔ ایڈمن ڈیش بورڈ سے شامل کریں۔</p>`;
+                return;
+            }
+
+            container.innerHTML = members.map(m => `
+                <div class="bg-green-50 p-3 rounded-lg border border-green-200 flex justify-between items-center">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <div class="w-10 h-10 rounded-full bg-green-700 text-white flex items-center justify-center font-bold">${m.name[0] || 'ع'}</div>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-900">${m.name}</h4>
+                            <p class="text-xs text-green-800 font-semibold">${m.role}</p>
+                            ${m.phone ? `<p class="text-[10px] text-gray-500">${m.phone}</p>` : ''}
+                        </div>
+                    </div>
+                    ${isAdmin ? `<button onclick="deleteTeamMember(${m.id})" class="bg-red-600 text-white text-[10px] px-2 py-1 rounded">حذف</button>` : ''}
+                </div>
+            `).join('');
         }
 
-        async function deletePost(postId) {
-            if (confirm('کیا آپ واقعی اس پوسٹ کو ڈیلیٹ کرنا چاہتے ہیں؟')) {
-                const { error } = await supabaseClient.from('posts').delete().eq('id', postId);
-                if (!error) fetchPosts();
+        async function addTeamMember() {
+            const name = document.getElementById('tmName').value;
+            const role = document.getElementById('tmRole').value;
+            const phone = document.getElementById('tmPhone').value;
+
+            if(!name || !role) { alert('نام اور عہدہ لازمی درج کریں۔'); return; }
+
+            await supabaseClient.from('team_members').insert([{ name: name, role: role, phone: phone }]);
+            document.getElementById('tmName').value = '';
+            document.getElementById('tmRole').value = '';
+            document.getElementById('tmPhone').value = '';
+            fetchTeamMembers();
+        }
+
+        async function deleteTeamMember(id) {
+            if(confirm('کیا آپ اس عہدیدار کو ہٹانا چاہتے ہیں؟')) {
+                await supabaseClient.from('team_members').delete().eq('id', id);
+                fetchTeamMembers();
             }
         }
+
+        // --- DYNAMIC SETTINGS (ABOUT & RULES) ---
+        async function fetchDynamicSettings() {
+            const { data } = await supabaseClient.from('site_settings').select('*');
+            if(data) {
+                data.forEach(item => {
+                    if(item.id === 'about') {
+                        document.getElementById('aboutContentDisplay').innerText = item.content;
+                        document.getElementById('aboutTextarea').value = item.content;
+                    }
+                    if(item.id === 'rules') {
+                        document.getElementById('rulesContentDisplay').innerText = item.content;
+                        document.getElementById('rulesTextarea').value = item.content;
+                    }
+                });
+            }
+        }
+
+        async function saveAboutContent() {
+            const text = document.getElementById('aboutTextarea').value;
+            await supabaseClient.from('site_settings').upsert({ id: 'about', content: text });
+            alert('تعارف کامیابی سے اپڈیٹ ہو گیا!');
+            fetchDynamicSettings();
+        }
+
+        async function saveRulesContent() {
+            const text = document.getElementById('rulesTextarea').value;
+            await supabaseClient.from('site_settings').upsert({ id: 'rules', content: text });
+            alert('اصول و ضوابط کامیابی سے اپڈیٹ ہو گئے!');
+            fetchDynamicSettings();
+        }
+
+        // --- BLOOD DONORS FUNCTIONS ---
+        async function fetchBloodDonors() {
+            const list = document.getElementById('bloodList');
+            let query = supabaseClient.from('blood_donors').select('*').order('id', { ascending: false });
+            if (!isAdmin) query = query.eq('status', 'approved');
+
+            const { data: donors, error } = await query;
+            if (error || !donors || donors.length === 0) {
+                list.innerHTML = `<p class="text-center text-xs text-gray-500 py-2">فی الحال کوئی بلڈ ڈونر موجود نہیں ہے۔</p>`;
+                return;
+            }
+
+            list.innerHTML = donors.map(d => `
+                <div class="bg-red-50 p-3 rounded-lg border border-red-200 mb-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <div>
+                            <p class="font-bold text-gray-800 text-sm">${d.name}</p>
+                            <a href="tel:${d.phone}" class="text-green-700 font-semibold"><i class="fa-solid fa-phone text-[10px] ml-1"></i> ${d.phone}</a>
+                        </div>
+                        <span class="bg-red-600 text-white px-3 py-1 rounded-full font-bold text-sm">${d.blood_group}</span>
+                    </div>
+                    ${isAdmin ? `
+                        <div class="mt-2 pt-2 border-t flex justify-end space-x-2 space-x-reverse">
+                            ${d.status === 'pending' ? `<button onclick="approveDonor(${d.id})" class="bg-green-700 text-white px-2 py-0.5 rounded text-[10px]">منظور کریں</button>` : '<span class="text-green-600 font-bold text-[10px]">✅ Approved</span>'}
+                            <button onclick="deleteDonor(${d.id})" class="bg-red-600 text-white px-2 py-0.5 rounded text-[10px]">ڈیلیٹ کریں</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        async function handleBloodSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('bloodSubmitBtn');
+            const name = document.getElementById('donorName').value;
+            const group = document.getElementById('donorGroup').value;
+            const phone = document.getElementById('donorPhone').value;
+
+            btn.disabled = true;
+            btn.innerText = "اندراج ہو رہا ہے...";
+            await supabaseClient.from('blood_donors').insert([{ name: name, blood_group: group, phone: phone, status: 'pending' }]);
+            alert("آپ کی درخواست انتظامیہ کو موصول ہو گئی ہے۔");
+            document.getElementById('bloodForm').reset();
+            btn.disabled = false;
+            btn.innerText = "نام درج کریں";
+            fetchBloodDonors();
+        }
+
+        async function approveDonor(id) { await supabaseClient.from('blood_donors').update({ status: 'approved' }).eq('id', id); fetchBloodDonors(); }
+        async function deleteDonor(id) { if(confirm('ڈیلیٹ کریں؟')) { await supabaseClient.from('blood_donors').delete().eq('id', id); fetchBloodDonors(); } }
+
+        async function approvePost(id) { await supabaseClient.from('posts').update({ status: 'approved' }).eq('id', id); fetchPosts(); }
+        async function deletePost(id) { if(confirm('ڈیلیٹ کریں؟')) { await supabaseClient.from('posts').delete().eq('id', id); fetchPosts(); } }
 
         async function likePost(postId, currentLikes) {
             const countSpan = document.getElementById(`like-count-${postId}`);
             const newLikes = currentLikes + 1;
             if (countSpan) countSpan.innerText = newLikes;
-
-            const { error } = await supabaseClient.from('posts').update({ likes_count: newLikes }).eq('id', postId);
-            if (error && countSpan) countSpan.innerText = currentLikes;
+            await supabaseClient.from('posts').update({ likes_count: newLikes }).eq('id', postId);
         }
 
-        function toggleCommentBox(postId) {
-            document.getElementById(`comment-sec-${postId}`).classList.toggle('hidden');
-        }
+        function toggleCommentBox(postId) { document.getElementById(`comment-sec-${postId}`).classList.toggle('hidden'); }
 
         async function addComment(postId) {
             const name = document.getElementById(`c-name-${postId}`).value || 'گمنام';
             const text = document.getElementById(`c-text-${postId}`).value;
             if (!text) return;
-
-            const { error } = await supabaseClient.from('comments').insert([{ post_id: postId, user_name: name, comment_text: text }]);
-            if (!error) fetchPosts();
+            await supabaseClient.from('comments').insert([{ post_id: postId, user_name: name, comment_text: text }]);
+            fetchPosts();
         }
 
         function sharePost(title) {
@@ -358,22 +511,16 @@
                 }
             }
 
-            await supabaseClient.from('posts').insert([{ 
-                title: title, 
-                content: text, 
-                media_url: media_url, 
-                media_type: media_type,
-                status: 'pending' // Posts will need approval
-            }]);
-
+            await supabaseClient.from('posts').insert([{ title: title, content: text, media_url: media_url, media_type: media_type, status: 'pending' }]);
             document.getElementById('postForm').reset();
             submitBtn.disabled = false;
             submitBtn.innerText = "شائع کریں";
-            alert("آپ کی پوسٹ انتظامیہ کو موصول ہو گئی ہے۔ جانچ پڑتال/منظوری کے بعد شائع کر دی جائے گی۔");
+            alert("آپ کی پوسٹ انتظامیہ کو موصول ہو گئی ہے۔");
             fetchPosts();
         }
 
         fetchPosts();
+        fetchDynamicSettings();
     </script>
 </body>
 </html>
