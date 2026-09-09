@@ -1,667 +1,307 @@
 <!DOCTYPE html>
-<html lang="ur" dir="rtl" class="scroll-smooth">
+<html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اتحاد ویلفیئر فاؤنڈیشن - بستی بلوچاں والی</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Noto+Sans+Arabic:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        emerald: {
-                            850: '#064e3b',
-                            950: '#022c22'
-                        },
-                        gold: {
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706'
-                        }
-                    },
-                    fontFamily: {
-                        urdu: ['"Noto Naskh Arabic"', '"Noto Sans Arabic"', 'Tahoma', 'sans-serif'],
-                        nastaliq: ['"Noto Nastaliq Urdu"', 'serif']
-                    }
-                }
-            }
-        }
-    </script>
-
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Noto Sans Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8fafc;
+            font-family: 'Noto Naskh Arabic', serif;
+            background-color: #f0f2f5;
         }
-        .font-nastaliq {
-            font-family: 'Noto Nastaliq Urdu', serif;
-            line-height: 2.2;
-        }
-        .hero-pattern {
-            background-color: #047857;
-            background-image: radial-gradient(#10b981 0.75px, transparent 0.75px), radial-gradient(#10b981 0.75px, #047857 0.75px);
-            background-size: 30px 30px;
-            background-position: 0 0, 15px 15px;
-        }
-        .custom-shadow {
-            box-shadow: 0 10px 25px -5px rgba(5, 150, 105, 0.1), 0 8px 10px -6px rgba(5, 150, 105, 0.1);
+        .tab-btn.active {
+            color: #15803d;
+            border-bottom: 3px solid #15803d;
         }
     </style>
 </head>
-<body class="text-slate-800 bg-slate-50 flex flex-col min-h-screen">
+<body class="text-gray-900 pb-12">
 
-    <header class="sticky top-0 z-40 bg-emerald-800 text-white shadow-md border-b-2 border-gold-500">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <!-- Logo & Title -->
-                <div class="flex items-center space-x-3 space-x-reverse">
-                    <div class="bg-white p-2 rounded-full border-2 border-gold-400 shadow-inner flex items-center justify-center w-12 h-12">
-                        <i class="fa-solid fa-hands-holding-child text-emerald-700 text-2xl"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-gold-400">اتحاد ویلفیئر فاؤنڈیشن</h1>
-                        <p class="text-xs sm:text-sm text-emerald-200">بستی بلوچاں والی کمیٹی</p>
-                    </div>
+    <!-- Facebook Style Top Navigation Header -->
+    <header class="bg-white shadow sticky top-0 z-50 border-b border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-14">
+            <!-- Brand Logo / Title -->
+            <div class="flex items-center space-x-2 space-x-reverse">
+                <div class="bg-green-700 text-white p-2 rounded-full w-9 h-9 flex items-center justify-center font-bold text-lg shadow">
+                    ا
                 </div>
-
-                <!-- Desktop Navigation Menu -->
-                <nav class="hidden md:flex space-x-6 space-x-reverse font-medium text-sm lg:text-base">
-                    <a href="#home" class="hover:text-gold-400 transition-colors py-2 border-b-2 border-gold-400">ہوم</a>
-                    <a href="#about" class="hover:text-gold-400 transition-colors py-2 border-b-2 border-transparent hover:border-gold-400">ہمارے بارے میں</a>
-                    <a href="#gallery" class="hover:text-gold-400 transition-colors py-2 border-b-2 border-transparent hover:border-gold-400">میڈیا گیلری</a>
-                    <a href="#principles" class="hover:text-gold-400 transition-colors py-2 border-b-2 border-transparent hover:border-gold-400">اصول و ضوابط</a>
-                    <a href="#contact" class="hover:text-gold-400 transition-colors py-2 border-b-2 border-transparent hover:border-gold-400">رابطہ</a>
-                </nav>
-
-                <!-- Action Button -->
-                <div class="hidden sm:flex items-center gap-3">
-                    <button onclick="openPostModal()" class="bg-gold-500 hover:bg-gold-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm transition shadow-lg flex items-center gap-2">
-                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <span>پوسٹ شامل کریں</span>
-                    </button>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-emerald-100 hover:text-white focus:outline-none p-2">
-                        <i class="fa-solid fa-bars text-2xl"></i>
-                    </button>
+                <div>
+                    <h1 class="text-base font-bold text-green-800 leading-tight">اتحاد ویلفیئر فاؤنڈیشن</h1>
+                    <p class="text-[10px] text-gray-500">بستی بلوچاں والی کمیٹی</p>
                 </div>
             </div>
-        </div>
 
-        <!-- Mobile Navigation Menu Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-emerald-900 border-t border-emerald-700 px-4 pt-2 pb-4 space-y-2">
-            <a href="#home" class="block text-white hover:bg-emerald-800 px-3 py-2 rounded-md text-base font-medium">ہوم</a>
-            <a href="#about" class="block text-emerald-100 hover:bg-emerald-800 px-3 py-2 rounded-md text-base font-medium">ہمارے بارے میں</a>
-            <a href="#gallery" class="block text-emerald-100 hover:bg-emerald-800 px-3 py-2 rounded-md text-base font-medium">میڈیا گیلری</a>
-            <a href="#principles" class="block text-emerald-100 hover:bg-emerald-800 px-3 py-2 rounded-md text-base font-medium">اصول و ضوابط</a>
-            <a href="#contact" class="block text-emerald-100 hover:bg-emerald-800 px-3 py-2 rounded-md text-base font-medium">رابطہ</a>
-            <button onclick="openPostModal()" class="w-full mt-2 bg-gold-500 hover:bg-gold-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <span>تصویر / ویڈیو پوسٹ کریں</span>
-            </button>
-        </div>
-    </header>
-
-    <main class="flex-grow">
-        <section id="home" class="hero-pattern text-white py-12 lg:py-20 relative overflow-hidden">
-            <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
-                <div class="inline-block bg-emerald-900/60 backdrop-blur-sm border border-gold-400/40 px-6 py-2 rounded-full mb-6">
-                    <span class="text-gold-300 font-semibold text-lg sm:text-xl font-nastaliq">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>
-                </div>
-                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 text-white leading-tight">
-                    اتحاد ویلفیئر فاؤنڈیشن
-                </h1>
-                <p class="text-xl sm:text-2xl text-gold-300 font-medium mb-6">
-                    بستی بلوچاں والی کمیٹی — خدمت، اتحاد اور بھائی چارہ
-                </p>
-                <p class="text-base sm:text-lg text-emerald-100 max-w-2xl mx-auto mb-8 leading-relaxed">
-                    ہماری بستی کے اتحاد، فلاح و بہبود، تعلیم، صحت اور باہمی تعاون کا باضابطہ ڈیجیٹل پورٹل۔ اپنی بستی کی تمام خبریں، ویڈیوز اور یادگار تصاویر یہاں شیئر کریں۔
-                </p>
-                <div class="flex flex-wrap justify-center gap-4">
-                    <button onclick="openPostModal()" class="bg-gold-500 hover:bg-gold-600 text-slate-900 font-bold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition flex items-center gap-2 text-base">
-                        <i class="fa-solid fa-camera"></i>
-                        <span>اپنی تصویر یا ویڈیو شیئر کریں</span>
-                    </button>
-                    <a href="#gallery" class="bg-emerald-900/80 hover:bg-emerald-950 text-white border border-emerald-600 font-medium px-6 py-3 rounded-xl transition flex items-center gap-2 text-base">
-                        <i class="fa-solid fa-images"></i>
-                        <span>گیلری دیکھیں</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="py-12 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-10">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-emerald-900 mb-2">ہمارے مقاصد اور وژن</h2>
-                    <div class="w-20 h-1 bg-gold-500 mx-auto rounded-full"></div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Card 1 -->
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 hover:shadow-md transition text-center">
-                        <div class="w-14 h-14 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
-                            <i class="fa-solid fa-hand-holding-heart"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">فلاحی و امدادی امور</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">
-                            بستی میں مستحقین کی مدد، ایمرجنسی صورتحال میں تعاون، محفلِ میلاد، اور اجتماعی تقریبات کا بہترین نظم و ضبط۔
-                        </p>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 hover:shadow-md transition text-center">
-                        <div class="w-14 h-14 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
-                            <i class="fa-solid fa-people-roof"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">اتحاد اور بھائی چارہ</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">
-                            تمام اہل بستی میں باہمی محبت، مساوات، اور ہم آہنگی کو فروغ دینا تاکہ ہر فرد ایک دوسرے کا سہارا بنے۔
-                        </p>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 hover:shadow-md transition text-center">
-                        <div class="w-14 h-14 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
-                            <i class="fa-solid fa-photo-film"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">ڈیجیٹل کمیونٹی پورٹل</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">
-                            بستی کے تمام افراد کو ایک پلیٹ فارم پر اکٹھا کرنا تاکہ تصاویر، ویڈیوز اور اہم اعلانات باآسانی شیئر کیے جا سکیں۔
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="principles" class="py-12 bg-emerald-900 text-white relative">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-10">
-                    <span class="text-gold-400 text-sm font-semibold tracking-wide uppercase">قواعد و ضوابط</span>
-                    <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1 mb-2">انتظامیہ کے ۳ بنیادی اور اہم اصول</h2>
-                    <p class="text-emerald-200 text-sm max-w-xl mx-auto">کمیٹی کا حصہ بننے یا انتظامی خدمات سرانجام دینے کے لیے ان اصولوں کی پاسداری ضروری ہے</p>
-                    <div class="w-20 h-1 bg-gold-500 mx-auto rounded-full mt-3"></div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Principle 1 -->
-                    <div class="bg-emerald-800/80 border border-emerald-700/80 p-6 rounded-2xl relative overflow-hidden shadow-lg">
-                        <div class="absolute -top-3 -right-3 w-12 h-12 bg-gold-500 text-slate-900 font-bold rounded-full flex items-center justify-center text-xl shadow">
-                            ۱
-                        </div>
-                        <h3 class="text-lg font-bold text-gold-300 mt-2 mb-3">رضائے الٰہی اور خلوصِ نیت</h3>
-                        <p class="text-emerald-100 text-sm leading-relaxed">
-                            آپ کا انتظامیہ میں شامل ہونا صرف اور صرف اللہ تعالیٰ کی رضا کے لیے ہونا چاہیے۔ کسی شخص کو خوش کرنے یا ذاتی مفاد کے لیے نہیں۔
-                        </p>
-                    </div>
-
-                    <!-- Principle 2 -->
-                    <div class="bg-emerald-800/80 border border-emerald-700/80 p-6 rounded-2xl relative overflow-hidden shadow-lg">
-                        <div class="absolute -top-3 -right-3 w-12 h-12 bg-gold-500 text-slate-900 font-bold rounded-full flex items-center justify-center text-xl shadow">
-                            ۲
-                        </div>
-                        <h3 class="text-lg font-bold text-gold-300 mt-2 mb-3">بلا تفریق انصاف اور مساوات</h3>
-                        <p class="text-emerald-100 text-sm leading-relaxed">
-                            تمام معاملات میں انصاف کے تقاضوں کو پورا کرنا لازمی ہے۔ چاہے سامنے آپ کا سگا بھائی یا عزیز دوست ہو، حق سب کے لیے برابر ہے۔
-                        </p>
-                    </div>
-
-                    <!-- Principle 3 -->
-                    <div class="bg-emerald-800/80 border border-emerald-700/80 p-6 rounded-2xl relative overflow-hidden shadow-lg">
-                        <div class="absolute -top-3 -right-3 w-12 h-12 bg-gold-500 text-slate-900 font-bold rounded-full flex items-center justify-center text-xl shadow">
-                            ۳
-                        </div>
-                        <h3 class="text-lg font-bold text-gold-300 mt-2 mb-3">برداشت اور حلم</h3>
-                        <p class="text-emerald-100 text-sm leading-relaxed">
-                            فلاحی امور میں صبر اور حوصلہ سب سے اہم شرط ہے۔ کام کے دوران ہر قسم کے حالات اور باتوں کو مسکراتے ہوئے برداشت کرنے کا ظرف ہو۔
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="gallery" class="py-12 bg-slate-100">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                
-                <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-                    <div>
-                        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">بستی بلوچاں والی گیلری اور پوسٹس</h2>
-                        <p class="text-slate-600 text-sm mt-1">اہل بستی کی جانب سے شیئر کی گئی خوبصورت تصاویر اور ویڈیوز</p>
-                    </div>
-
-                    <!-- Filter Tabs & Post Button -->
-                    <div class="flex flex-wrap items-center gap-2">
-                        <button onclick="filterFeed('all')" id="filter-all" class="filter-btn bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow">تمام</button>
-                        <button onclick="filterFeed('photo')" id="filter-photo" class="filter-btn bg-white text-slate-700 hover:bg-slate-200 px-4 py-2 rounded-lg text-sm font-medium transition">تصاویر</button>
-                        <button onclick="filterFeed('video')" id="filter-video" class="filter-btn bg-white text-slate-700 hover:bg-slate-200 px-4 py-2 rounded-lg text-sm font-medium transition">ویڈیوز</button>
-                        <button onclick="filterFeed('news')" id="filter-news" class="filter-btn bg-white text-slate-700 hover:bg-slate-200 px-4 py-2 rounded-lg text-sm font-medium transition">خبریں و اعلانات</button>
-                        <button onclick="openPostModal()" class="bg-gold-500 hover:bg-gold-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm transition shadow flex items-center gap-1.5 ml-auto">
-                            <i class="fa-solid fa-plus"></i>
-                            <span>نئی پوسٹ</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Feed Grid -->
-                <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Dynamic posts injected via JS -->
-                </div>
-
-            </div>
-        </section>
-
-        <section id="contact" class="py-12 bg-white">
-            <div class="max-w-4xl mx-auto px-4 text-center">
-                <div class="bg-emerald-50 border-2 border-emerald-200 rounded-3xl p-8 sm:p-10 shadow-sm">
-                    <div class="w-16 h-16 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </div>
-                    <h2 class="text-2xl sm:text-3xl font-bold text-emerald-950 mb-3">کمیٹی میں شمولیت یا رابطہ کریں</h2>
-                    <p class="text-slate-600 max-w-xl mx-auto text-sm sm:text-base mb-6 leading-relaxed">
-                        اگر آپ اتحاد ویلفیئر فاؤنڈیشن کی انتظامیہ کا حصہ بننا چاہتے ہیں یا بستی کے حوالے سے کوئی مشورہ یا شکایت درج کروانا چاہتے ہیں تو ہم سے رابطہ کریں۔
-                    </p>
-                    <div class="flex flex-wrap justify-center gap-4">
-                        <a href="https://wa.me/?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%DB%8C%DA%A9%D9%85%20%D8%A7%D8%AA%D8%AD%D8%A7%D8%AF%20%D9%88%DB%8C%D9%84%D9%81%DB%8C%D8%A2%D8%B1%20%D9%81%D8%A2%D8%A4%D9%86%DA%88%DB%8C%D8%B4%D9%86%20%D8%B3%DB%92%20%D8%B1%D8%A7%D8%A8%D8%B7%DB%81" target="_blank" class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-xl shadow transition flex items-center gap-2">
-                            <i class="fa-brands fa-whatsapp text-xl"></i>
-                            <span>واٹس ایپ پر رابطہ کریں</span>
-                        </a>
-                        <button onclick="openPostModal()" class="bg-emerald-800 hover:bg-emerald-900 text-white font-bold px-6 py-3 rounded-xl shadow transition flex items-center gap-2">
-                            <i class="fa-solid fa-camera"></i>
-                            <span>تصویر یا ویڈیو بھیجیں</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <div id="post-modal" class="fixed inset-0 bg-slate-900/70 z-50 backdrop-blur-sm flex items-center justify-center hidden p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all my-8">
-            <!-- Modal Header -->
-            <div class="bg-emerald-800 px-6 py-4 text-white flex items-center justify-between">
-                <h3 class="text-lg font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-circle-plus text-gold-400"></i>
-                    <span>بستی کی تصویر / ویڈیو پوسٹ کریں</span>
-                </h3>
-                <button onclick="closePostModal()" class="text-emerald-200 hover:text-white transition text-xl">
-                    <i class="fa-solid fa-xmark"></i>
+            <!-- Search / Quick Action -->
+            <div class="flex items-center space-x-2 space-x-reverse">
+                <button onclick="switchTab('posts')" class="bg-green-700 text-white px-3 py-1.5 rounded-full text-xs font-semibold hover:bg-green-800 shadow">
+                    <i class="fa-solid fa-pen ml-1"></i> پوسٹ کریں
                 </button>
             </div>
+        </div>
 
-            <!-- Modal Form -->
-            <form id="post-form" onsubmit="handlePostSubmit(event)" class="p-6 space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">آپ کا نام <span class="text-red-500">*</span></label>
-                    <input type="text" id="uploader-name" required placeholder="مثلاً: محمد احمد بلوچ" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+        <!-- Navigation Tabs (Facebook Style) -->
+        <nav class="flex justify-around bg-white border-t border-gray-200 text-gray-600 font-semibold text-sm">
+            <button onclick="switchTab('posts')" id="tab-posts" class="tab-btn active py-3 flex-1 text-center hover:bg-gray-50 transition">
+                <i class="fa-solid fa-house text-lg block sm:inline sm:ml-1"></i>
+                <span class="text-xs sm:text-sm">پوسٹس (Feed)</span>
+            </button>
+            <button onclick="switchTab('about')" id="tab-about" class="tab-btn py-3 flex-1 text-center hover:bg-gray-50 transition">
+                <i class="fa-solid fa-circle-info text-lg block sm:inline sm:ml-1"></i>
+                <span class="text-xs sm:text-sm">تعارف و تصدیق</span>
+            </button>
+            <button onclick="switchTab('rules')" id="tab-rules" class="tab-btn py-3 flex-1 text-center hover:bg-gray-50 transition">
+                <i class="fa-solid fa-scroll text-lg block sm:inline sm:ml-1"></i>
+                <span class="text-xs sm:text-sm">اصول و ضوابط</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Page Content Container -->
+    <div class="max-w-2xl mx-auto px-2 sm:px-4 mt-4">
+
+        <!-- ================= TAB 1: POSTS & FEED ================= -->
+        <div id="sec-posts">
+            
+            <!-- Create Post Box (Facebook Style) -->
+            <div class="bg-white rounded-lg shadow p-4 mb-4 border border-gray-200">
+                <div class="flex items-center space-x-3 space-x-reverse border-b pb-3 mb-3">
+                    <div class="w-10 h-10 rounded-full bg-green-100 text-green-700 flex items-center justify-center font-bold text-lg">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <input type="text" onclick="focusUploadForm()" placeholder="آپ کے ذہن میں کیا ہے؟ گاؤں کی اپڈیٹ پوسٹ کریں..." class="bg-gray-100 hover:bg-gray-200 w-full rounded-full py-2 px-4 text-sm cursor-pointer border-none focus:outline-none">
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">پوسٹ کی قسم <span class="text-red-500">*</span></label>
-                    <select id="post-category" onchange="toggleMediaTypeInputs()" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm bg-white">
-                        <option value="photo">تصویر (Photo)</option>
-                        <option value="video">یوٹیوب / ویڈیو (Video)</option>
-                        <option value="news">خبر / اعلان (News/Announcement)</option>
-                    </select>
-                </div>
+                <!-- Hidden Form Expandable -->
+                <form id="postForm" onsubmit="createPost(event)" class="space-y-3">
+                    <input type="text" id="postTitle" required placeholder="پوسٹ کا عنوان / نام" class="w-full border rounded-lg p-2 text-sm focus:ring-1 focus:ring-green-600 focus:outline-none">
+                    <textarea id="postText" rows="3" placeholder="مکمل تفصیل یہاں لکھیں..." class="w-full border rounded-lg p-2 text-sm focus:ring-1 focus:ring-green-600 focus:outline-none"></textarea>
+                    
+                    <div class="flex items-center justify-between border-t pt-2">
+                        <label class="cursor-pointer flex items-center space-x-2 space-x-reverse text-gray-600 hover:text-green-700 text-xs font-semibold">
+                            <i class="fa-solid fa-image text-green-600 text-lg"></i>
+                            <span>تصویر / ویڈیو شامل کریں</span>
+                            <input type="file" id="postMedia" accept="image/*,video/*" class="hidden">
+                        </label>
+                        <button type="submit" class="bg-green-700 hover:bg-green-800 text-white px-5 py-1.5 rounded-md font-semibold text-xs transition">
+                            شائع کریں
+                        </button>
+                    </div>
+                </form>
+            </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">عنوان / تفصیلا ت <span class="text-red-500">*</span></label>
-                    <textarea id="post-caption" rows="3" required placeholder="پوسٹ کی تفصیل یا پیغام درج کریں..." class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"></textarea>
-                </div>
+            <!-- Feed Posts Grid -->
+            <div id="feedPosts" class="space-y-4">
 
-                <!-- Input for Photo URL or Preset Demo Images -->
-                <div id="image-url-container">
-                    <label class="block text-sm font-medium text-slate-700 mb-1">تصویر کا لنک (Image URL) یا نمونہ منتخب کریں</label>
-                    <input type="url" id="post-image-url" placeholder="https://..." class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm mb-2">
-                    <div class="text-xs text-slate-500 flex flex-wrap gap-2 items-center">
-                        <span>یا تیز نمونہ چنیں:</span>
-                        <button type="button" onclick="setDemoImage('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop')" class="bg-slate-200 hover:bg-slate-300 px-2 py-1 rounded text-xs">مناظر</button>
-                        <button type="button" onclick="setDemoImage('https://images.unsplash.com/photo-1593113598332-cd288d649433?w=800&auto=format&fit=crop')" class="bg-slate-200 hover:bg-slate-300 px-2 py-1 rounded text-xs">فلاحی کام</button>
-                        <button type="button" onclick="setDemoImage('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&auto=format&fit=crop')" class="bg-slate-200 hover:bg-slate-300 px-2 py-1 rounded text-xs">اجتماع</button>
+                <!-- Official Announcement Post -->
+                <div class="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
+                    <!-- Post Header -->
+                    <div class="p-4 flex items-center justify-between border-b border-gray-100">
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <div class="w-10 h-10 rounded-full bg-green-700 text-white flex items-center justify-center font-bold">
+                                اتحاد
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-900 flex items-center">
+                                    اتحاد ویلفیئر فاؤنڈیشن
+                                    <i class="fa-solid fa-circle-check text-blue-500 text-xs mr-1" title="مصدقہ اکاؤنٹ"></i>
+                                </h4>
+                                <p class="text-[11px] text-gray-500">بستی بلوچاں والی کمیٹی • انتظامیہ کا اہم پیغام</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post Body -->
+                    <div class="p-4 text-sm leading-relaxed text-gray-800 space-y-2">
+                        <p class="font-bold text-green-800">بسم اللہ الرحمن الرحیم - انتہائی اہم اور ضروری اعلان</p>
+                        <p>اتحاد ویلفیئر فاؤنڈیشن (بستی بلوچاں والی کمیٹی) کے تمام احباب اور ممبرانِ گرامی کے لیے انتظامی اصول و ضوابط جاری کر دیے گئے ہیں۔ تمام بھائیوں سے التماس ہے کہ تعارف اور اصول والے ٹیب میں جا کر ان کو لازمی پڑھیں۔</p>
+                    </div>
+
+                    <!-- Post Actions (Like / Comment) -->
+                    <div class="border-t border-gray-100 px-4 py-2 flex justify-around text-gray-500 text-xs font-semibold">
+                        <button onclick="toggleLike(this)" class="flex items-center space-x-1 space-x-reverse hover:text-green-700">
+                            <i class="fa-regular fa-thumbs-up text-base"></i>
+                            <span>پسند کریں (<span class="like-count">12</span>)</span>
+                        </button>
+                        <button class="flex items-center space-x-1 space-x-reverse hover:text-green-700">
+                            <i class="fa-regular fa-comment text-base"></i>
+                            <span>تبصرہ کریں</span>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Input for Video Embed/URL -->
-                <div id="video-url-container" class="hidden">
-                    <label class="block text-sm font-medium text-slate-700 mb-1">یوٹیوب ویڈیو کا لنک (YouTube Video Link)</label>
-                    <input type="text" id="post-video-url" placeholder="مثال: https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm">
+            </div>
+        </div>
+
+
+        <!-- ================= TAB 2: ABOUT & VERIFICATION ================= -->
+        <div id="sec-about" class="hidden space-y-4">
+            
+            <!-- Verification Card -->
+            <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
+                <div class="flex items-center space-x-3 space-x-reverse mb-4 border-b pb-3">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold text-xl">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-900">سرکاری تصدیق و تعارف</h3>
+                        <p class="text-xs text-green-700 font-semibold">اتحاد ویلفیئر فاؤنڈیشن (بستی بلوچاں والی کمیٹی)</p>
+                    </div>
                 </div>
 
-                <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg text-xs text-amber-800">
-                    <i class="fa-solid fa-circle-info ml-1"></i>
-                    پوسٹ تمام قواعد و ضوابط کے مطابق ہونی چاہیے اور انتظامیہ کی ہدایت کی پاسداری ضروری ہے۔
+                <div class="space-y-3 text-sm text-gray-700 leading-relaxed">
+                    <p class="bg-green-50 border-r-4 border-green-600 p-3 rounded">
+                        <strong>مقصد:</strong> یہ فاؤنڈیشن ہماری بستی بلوچاں والی کی فلاح و بہبود، تعلیمی، صحتی، اور باہمی تعاون کے امور کو شفاف اور منظم انداز میں چلانے کے لیے قائم کی گئی ہے۔
+                    </p>
+
+                    <h4 class="font-bold text-gray-900 pt-2 border-b">بنیادی فلاحی امور:</h4>
+                    <ul class="list-disc list-inside space-y-1 text-xs sm:text-sm text-gray-600">
+                        <li>گاوں میں مساجد، محافل، اور دینی پروگرامز کا اہتمام۔</li>
+                        <li>کل خوانی، دعوت، اور دیگر اجتماعی مواقع پر انتظامی خدمات۔</li>
+                        <li>مستحقین کی بلا تفریق امداد اور راشن کی فراہمی۔</li>
+                        <li>بستی میں صفائی اور دیگر سماجی مسائل کا حل۔</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ================= TAB 3: RULES & PRINCIPLES ================= -->
+        <div id="sec-rules" class="hidden space-y-4">
+            
+            <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
+                <h3 class="font-bold text-lg text-green-800 mb-2 text-center border-b pb-2">
+                    انتظامیہ میں شمولیت کے 3 بنیادی اصول
+                </h3>
+                <p class="text-xs text-gray-500 text-center mb-6">
+                    جو بھی بھائی کمیٹی میں خدمات سرانجام دینے کے لیے آگے آنا چاہتا ہے، وہ درج ذیل اصولوں پر لازمی عمل کرے:
+                </p>
+
+                <!-- Rule 1 -->
+                <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-3">
+                    <div class="flex items-center space-x-2 space-x-reverse text-amber-800 font-bold text-base mb-1">
+                        <span class="bg-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+                        <h4>رضائے الٰہی اور خلوصِ نیت</h4>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-700 pr-8">
+                        آپ کا انتظامیہ میں شامل ہونا صرف اور صرف اللہ تعالیٰ کی رضا کے لیے ہونا چاہیے۔ کسی شخص کو خوش کرنے یا ذاتی مفاد کے لیے نہیں.
+                    </p>
                 </div>
 
-                <!-- Submit Button -->
-                <div class="pt-2 flex justify-end gap-2">
-                    <button type="button" onclick="closePostModal()" class="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 text-sm hover:bg-slate-100 transition">منسوخ کریں</button>
-                    <button type="submit" class="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-sm font-bold shadow transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-paper-plane"></i>
-                        <span>پوسٹ شائع کریں</span>
+                <!-- Rule 2 -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-3">
+                    <div class="flex items-center space-x-2 space-x-reverse text-blue-800 font-bold text-base mb-1">
+                        <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
+                        <h4>بلا تفریق انصاف اور مساوات</h4>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-700 pr-8">
+                        تمام معاملات میں انصاف کے تقاضوں کو پورا کرنا لازمی ہے۔ چاہے سامنے سگا بھائی ہو یا دوست، حق اور انصاف کے معاملے میں سب یکساں ہیں۔
+                    </p>
+                </div>
+
+                <!-- Rule 3 -->
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-3">
+                    <div class="flex items-center space-x-2 space-x-reverse text-green-800 font-bold text-base mb-1">
+                        <span class="bg-green-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span>
+                        <h4>برداشت اور حلم</h4>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-700 pr-8">
+                        فلاحی امور میں صبر، برداشت اور حوصلہ سب سے اہم ہے۔ کام کے دوران ہر قسم کی بات کو مسکراتے ہوئے برداشت کرنے کا ظرف ہونا چاہیے۔
+                    </p>
+                </div>
+
+                <p class="text-xs text-center text-gray-500 italic mt-4">
+                    اگر میری کسی بات سے کسی بھائی کی دل آزاری ہوئی ہو تو میں تہہِ دل سے معذرت خواہ ہوں۔<br>
+                    <strong>منجانب: اتحاد ویلفیئر فاؤنڈیشن (بستی بلوچاں والی کمیٹی)</strong>
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- JavaScript Handling -->
+    <script>
+        function switchTab(tabName) {
+            document.getElementById('sec-posts').classList.add('hidden');
+            document.getElementById('sec-about').classList.add('hidden');
+            document.getElementById('sec-rules').classList.add('hidden');
+
+            document.getElementById('tab-posts').classList.remove('active');
+            document.getElementById('tab-about').classList.remove('active');
+            document.getElementById('tab-rules').classList.remove('active');
+
+            document.getElementById('sec-' + tabName).classList.remove('hidden');
+            document.getElementById('tab-' + tabName).classList.add('active');
+        }
+
+        function createPost(e) {
+            e.preventDefault();
+            const title = document.getElementById('postTitle').value;
+            const text = document.getElementById('postText').value;
+            const mediaFile = document.getElementById('postMedia').files[0];
+
+            if (!title) return;
+
+            const postsContainer = document.getElementById('feedPosts');
+            const postCard = document.createElement('div');
+            postCard.className = "bg-white rounded-lg shadow border border-gray-200 overflow-hidden mb-4";
+
+            let mediaHTML = '';
+            if (mediaFile) {
+                const mediaURL = URL.createObjectURL(mediaFile);
+                if (mediaFile.type.startsWith('video/')) {
+                    mediaHTML = `<video controls class="w-full max-h-96 object-cover bg-black"><source src="${mediaURL}"></video>`;
+                } else {
+                    mediaHTML = `<img src="${mediaURL}" class="w-full max-h-96 object-cover">`;
+                }
+            }
+
+            postCard.innerHTML = `
+                <div class="p-4 flex items-center justify-between border-b border-gray-100">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <div class="w-10 h-10 rounded-full bg-green-100 text-green-700 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-900">${title}</h4>
+                            <p class="text-[11px] text-gray-500">ابھی شائع ہوا</p>
+                        </div>
+                    </div>
+                </div>
+                ${mediaHTML}
+                <div class="p-4 text-sm text-gray-800">
+                    <p>${text}</p>
+                </div>
+                <div class="border-t border-gray-100 px-4 py-2 flex justify-around text-gray-500 text-xs font-semibold">
+                    <button onclick="toggleLike(this)" class="flex items-center space-x-1 space-x-reverse hover:text-green-700">
+                        <i class="fa-regular fa-thumbs-up text-base"></i>
+                        <span>پسند کریں (<span class="like-count">0</span>)</span>
                     </button>
                 </div>
-            </form>
-        </div>
-    </div>
+            `;
 
-    <div id="toast" class="fixed bottom-5 left-5 z-50 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
-        <i id="toast-icon" class="fa-solid fa-circle-check text-green-400 text-xl"></i>
-        <span id="toast-msg" class="text-sm font-medium">پیغام کامیابی سے بھیج دیا گیا ہے</span>
-    </div>
-
-    <footer class="bg-slate-900 text-slate-400 py-8 border-t-4 border-gold-500">
-        <div class="max-w-7xl mx-auto px-4 text-center sm:text-right flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div>
-                <h4 class="text-white font-bold text-lg mb-1">اتحاد ویلفیئر فاؤنڈیشن (بستی بلوچاں والی کمیٹی)</h4>
-                <p class="text-xs text-slate-400">تمام حقوق محفوظ ہیں۔ فلاح و بہبود برائے باہمی ترقی۔</p>
-            </div>
-            <div class="text-xs text-slate-400 text-center sm:text-left">
-                <p>رضائے الٰہی • انصاف و مساوات • برداشت و حلم</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Sample Initial Posts Data
-        const initialPosts = [
-            {
-                id: 1,
-                author: "محمد طارق بلوچ",
-                category: "photo",
-                caption: "بستی بلوچاں والی میں حال ہی میں منعقد ہونے والا خوبصورت فلاحی اجتماع۔ تمام بھائیوں کا شکریہ۔",
-                imageUrl: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&auto=format&fit=crop",
-                videoUrl: "",
-                date: "2 گھنٹے پہلے",
-                likes: 18,
-                comments: ["ماشاءاللہ بہت خوب!", "اللہ قبول فرمائے۔"]
-            },
-            {
-                id: 2,
-                author: "کمیٹی انتظامیہ",
-                category: "news",
-                caption: "تمام احباب سے التماس ہے کہ بستی کے فلاحی پروگراموں اور محفلِ میلاد میں شرکت اور خدمات کے لیے کمیٹی سے رابطہ کریں۔",
-                imageUrl: "https://images.unsplash.com/photo-1593113598332-cd288d649433?w=800&auto=format&fit=crop",
-                videoUrl: "",
-                date: "1 دن پہلے",
-                likes: 24,
-                comments: ["انشاء اللہ ہم ساتھ ہیں"]
-            },
-            {
-                id: 3,
-                author: "حافظ عبدالرحمٰن",
-                category: "video",
-                caption: "ہماری بستی کا خوبصورت منظر اور سرسبز کھیت۔ ماشاءاللہ رب کی برکتیں!",
-                imageUrl: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop",
-                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-                date: "3 دن پہلے",
-                likes: 31,
-                comments: ["سبحان اللہ"]
-            }
-        ];
-
-        let postsState = [...initialPosts];
-        let activeFilter = 'all';
-
-        // Initialize application
-        window.onload = function() {
-            renderFeed();
-            setupMobileMenu();
-        };
-
-        // Mobile Menu Toggle
-        function setupMobileMenu() {
-            const btn = document.getElementById('mobile-menu-btn');
-            const menu = document.getElementById('mobile-menu');
-            if (btn && menu) {
-                btn.addEventListener('click', () => {
-                    menu.classList.toggle('hidden');
-                });
-            }
+            postsContainer.prepend(postCard);
+            document.getElementById('postForm').reset();
+            alert('آپ کی پوسٹ کامیابی سے شامل کر دی گئی ہے!');
         }
 
-        // Render Feed Items
-        function renderFeed() {
-            const container = document.getElementById('gallery-grid');
-            if (!container) return;
-
-            const filtered = postsState.filter(post => {
-                if (activeFilter === 'all') return true;
-                return post.category === activeFilter;
-            });
-
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full py-12 text-center text-slate-500">
-                        <i class="fa-solid fa-folder-open text-4xl mb-3 text-slate-300"></i>
-                        <p class="text-lg">اس کیٹیگری میں ابھی کوئی پوسٹ موجود نہیں ہے۔</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = filtered.map(post => {
-                let mediaContent = '';
-                if (post.category === 'video' && post.videoUrl) {
-                    // Extract video ID if youtube link
-                    let embedUrl = post.videoUrl;
-                    if(embedUrl.includes('youtube.com/watch?v=')) {
-                        const vidId = embedUrl.split('v=')[1]?.split('&')[0];
-                        embedUrl = `https://www.youtube.com/embed/${vidId}`;
-                    }
-                    mediaContent = `
-                        <div class="relative aspect-video w-full bg-black rounded-t-2xl overflow-hidden">
-                            <iframe class="w-full h-full" src="${embedUrl}" title="Video" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    `;
-                } else if (post.imageUrl) {
-                    mediaContent = `
-                        <div class="relative h-56 w-full overflow-hidden rounded-t-2xl bg-slate-200">
-                            <img src="${post.imageUrl}" alt="${post.caption}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" onerror="this.src='https://placehold.co/800x500/047857/ffffff?text=Basti+Balochan+Wali'">
-                        </div>
-                    `;
-                } else {
-                    mediaContent = `
-                        <div class="p-6 bg-gradient-to-r from-emerald-800 to-emerald-900 rounded-t-2xl text-white">
-                            <div class="flex items-center gap-2 text-gold-400 text-xs font-bold mb-2">
-                                <i class="fa-solid fa-bullhorn"></i>
-                                <span>اعلان</span>
-                            </div>
-                            <p class="text-base font-semibold">${post.caption}</p>
-                        </div>
-                    `;
-                }
-
-                const badgeMap = {
-                    photo: '<span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full font-medium">تصویر</span>',
-                    video: '<span class="bg-red-100 text-red-800 text-xs px-2.5 py-0.5 rounded-full font-medium">ویڈیو</span>',
-                    news: '<span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 rounded-full font-medium">خبر / اعلان</span>'
-                };
-
-                return `
-                    <div class="bg-white rounded-2xl border border-slate-200 custom-shadow overflow-hidden flex flex-col justify-between transition hover:-translate-y-1">
-                        <div>
-                            ${mediaContent}
-                            <div class="p-5">
-                                <div class="flex items-center justify-between mb-3">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-8 h-8 bg-emerald-700 text-white rounded-full flex items-center justify-center font-bold text-xs">
-                                            ${post.author.charAt(0)}
-                                        </div>
-                                        <div>
-                                            <h4 class="text-sm font-bold text-slate-800">${post.author}</h4>
-                                            <span class="text-xs text-slate-400">${post.date}</span>
-                                        </div>
-                                    </div>
-                                    <div>${badgeMap[post.category] || ''}</div>
-                                </div>
-
-                                ${post.category !== 'news' || post.imageUrl ? `<p class="text-slate-700 text-sm leading-relaxed mb-4">${post.caption}</p>` : ''}
-
-                                <!-- Comments List -->
-                                <div class="space-y-1.5 mb-4 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                    <div class="text-xs font-semibold text-slate-500 mb-1">تبصرے (${post.comments.length}):</div>
-                                    ${post.comments.map(c => `<div class="text-xs text-slate-600 bg-white p-2 rounded border border-slate-100"><i class="fa-regular fa-comment text-slate-400 ml-1"></i> ${c}</div>`).join('')}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card Footer Action Buttons -->
-                        <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs">
-                            <button onclick="likePost(${post.id})" class="flex items-center gap-1.5 text-slate-600 hover:text-emerald-700 font-medium transition">
-                                <i class="fa-regular fa-thumbs-up text-base"></i>
-                                <span>پسند (${post.likes})</span>
-                            </button>
-                            <button onclick="promptComment(${post.id})" class="flex items-center gap-1.5 text-slate-600 hover:text-emerald-700 font-medium transition">
-                                <i class="fa-regular fa-comment-dots text-base"></i>
-                                <span>تبصرہ کریں</span>
-                            </button>
-                            <button onclick="sharePost('${post.caption}')" class="flex items-center gap-1.5 text-slate-600 hover:text-emerald-700 font-medium transition">
-                                <i class="fa-solid fa-share-nodes text-base"></i>
-                                <span>شیئر</span>
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Filter Function
-        function filterFeed(type) {
-            activeFilter = type;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('bg-emerald-700', 'text-white', 'shadow');
-                btn.classList.add('bg-white', 'text-slate-700');
-            });
-            const activeBtn = document.getElementById(`filter-${type}`);
-            if (activeBtn) {
-                activeBtn.classList.remove('bg-white', 'text-slate-700');
-                activeBtn.classList.add('bg-emerald-700', 'text-white', 'shadow');
-            }
-            renderFeed();
-        }
-
-        // Modal Controls
-        function openPostModal() {
-            document.getElementById('post-modal').classList.remove('hidden');
-        }
-
-        function closePostModal() {
-            document.getElementById('post-modal').classList.add('hidden');
-            document.getElementById('post-form').reset();
-            toggleMediaTypeInputs();
-        }
-
-        function toggleMediaTypeInputs() {
-            const category = document.getElementById('post-category').value;
-            const imgContainer = document.getElementById('image-url-container');
-            const videoContainer = document.getElementById('video-url-container');
-
-            if (category === 'video') {
-                imgContainer.classList.add('hidden');
-                videoContainer.classList.remove('hidden');
-            } else if (category === 'photo') {
-                imgContainer.classList.remove('hidden');
-                videoContainer.classList.add('hidden');
+        function toggleLike(btn) {
+            const countSpan = btn.querySelector('.like-count');
+            let count = parseInt(countSpan.innerText);
+            if (btn.classList.contains('text-green-700')) {
+                btn.classList.remove('text-green-700');
+                countSpan.innerText = count - 1;
             } else {
-                imgContainer.classList.add('hidden');
-                videoContainer.classList.add('hidden');
+                btn.classList.add('text-green-700');
+                countSpan.innerText = count + 1;
             }
-        }
-
-        function setDemoImage(url) {
-            document.getElementById('post-image-url').value = url;
-        }
-
-        // Handle Post Creation Form Submit
-        function handlePostSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('uploader-name').value;
-            const category = document.getElementById('post-category').value;
-            const caption = document.getElementById('post-caption').value;
-            const imageUrl = document.getElementById('post-image-url').value || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop';
-            const videoUrl = document.getElementById('post-video-url').value;
-
-            const newPost = {
-                id: Date.now(),
-                author: name,
-                category: category,
-                caption: caption,
-                imageUrl: category === 'photo' ? imageUrl : '',
-                videoUrl: category === 'video' ? videoUrl : '',
-                date: 'ابھی ابھی',
-                likes: 0,
-                comments: []
-            };
-
-            postsState.unshift(newPost);
-            renderFeed();
-            closePostModal();
-            showToast('آپ کی پوسٹ کامیابی سے شائع کر دی گئی ہے!');
-        }
-
-        // Like Interaction
-        function likePost(id) {
-            const post = postsState.find(p => p.id === id);
-            if (post) {
-                post.likes += 1;
-                renderFeed();
-                showToast('پوسٹ پسند کی گئی!');
-            }
-        }
-
-        // Add Comment Interaction
-        function promptComment(id) {
-            const commentText = prompt('اپنا تبصرہ درج کریں:');
-            if (commentText && commentText.trim() !== '') {
-                const post = postsState.find(p => p.id === id);
-                if (post) {
-                    post.comments.push(commentText.trim());
-                    renderFeed();
-                    showToast('تبصرہ شامل کر دیا گیا ہے!');
-                }
-            }
-        }
-
-        // Share Interaction
-        function sharePost(text) {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'اتحاد ویلفیئر فاؤنڈیشن',
-                    text: text,
-                    url: window.location.href
-                }).catch(() => {});
-            } else {
-                // Fallback copy logic
-                const dummy = document.createElement('textarea');
-                document.body.appendChild(dummy);
-                dummy.value = text + ' - ' + window.location.href;
-                dummy.select();
-                document.execCommand('copy');
-                document.body.removeChild(dummy);
-                showToast('لنک کاپی کر لیا گیا ہے!');
-            }
-        }
-
-        // Notification Toast
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-msg');
-            toastMsg.innerText = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            toast.classList.add('translate-y-0', 'opacity-100');
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
         }
     </script>
 </body>
