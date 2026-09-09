@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body {
             font-family: 'Noto Naskh Arabic', serif;
@@ -23,10 +25,9 @@
 </head>
 <body class="text-gray-900 pb-12">
 
-    <!-- Facebook Style Top Navigation Header -->
+    <!-- Header Navigation -->
     <header class="bg-white shadow sticky top-0 z-50 border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-14">
-            <!-- Brand Logo / Title -->
             <div class="flex items-center space-x-2 space-x-reverse">
                 <div class="bg-green-700 text-white p-2 rounded-full w-9 h-9 flex items-center justify-center font-bold text-lg shadow">
                     ا
@@ -37,7 +38,6 @@
                 </div>
             </div>
 
-            <!-- Search / Quick Action -->
             <div class="flex items-center space-x-2 space-x-reverse">
                 <button onclick="switchTab('posts')" class="bg-green-700 text-white px-3 py-1.5 rounded-full text-xs font-semibold hover:bg-green-800 shadow">
                     <i class="fa-solid fa-pen ml-1"></i> پوسٹ کریں
@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        <!-- Navigation Tabs (Facebook Style) -->
+        <!-- Navigation Tabs -->
         <nav class="flex justify-around bg-white border-t border-gray-200 text-gray-600 font-semibold text-sm">
             <button onclick="switchTab('posts')" id="tab-posts" class="tab-btn active py-3 flex-1 text-center hover:bg-gray-50 transition">
                 <i class="fa-solid fa-house text-lg block sm:inline sm:ml-1"></i>
@@ -62,87 +62,38 @@
         </nav>
     </header>
 
-    <!-- Page Content Container -->
+    <!-- Main Container -->
     <div class="max-w-2xl mx-auto px-2 sm:px-4 mt-4">
 
-        <!-- ================= TAB 1: POSTS & FEED ================= -->
+        <!-- TAB 1: POSTS -->
         <div id="sec-posts">
             
-            <!-- Create Post Box (Facebook Style) -->
+            <!-- Create Post Card -->
             <div class="bg-white rounded-lg shadow p-4 mb-4 border border-gray-200">
-                <div class="flex items-center space-x-3 space-x-reverse border-b pb-3 mb-3">
-                    <div class="w-10 h-10 rounded-full bg-green-100 text-green-700 flex items-center justify-center font-bold text-lg">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <input type="text" onclick="focusUploadForm()" placeholder="آپ کے ذہن میں کیا ہے؟ گاؤں کی اپڈیٹ پوسٹ کریں..." class="bg-gray-100 hover:bg-gray-200 w-full rounded-full py-2 px-4 text-sm cursor-pointer border-none focus:outline-none">
-                </div>
-
-                <!-- Hidden Form Expandable -->
-                <form id="postForm" onsubmit="createPost(event)" class="space-y-3">
-                    <input type="text" id="postTitle" required placeholder="پوسٹ کا عنوان / نام" class="w-full border rounded-lg p-2 text-sm focus:ring-1 focus:ring-green-600 focus:outline-none">
-                    <textarea id="postText" rows="3" placeholder="مکمل تفصیل یہاں لکھیں..." class="w-full border rounded-lg p-2 text-sm focus:ring-1 focus:ring-green-600 focus:outline-none"></textarea>
+                <form id="postForm" onsubmit="handlePostSubmit(event)" class="space-y-3">
+                    <input type="text" id="postTitle" required placeholder="پوسٹ کرنے والے کا نام یا عنوان" class="w-full border rounded-lg p-2 text-sm focus:ring-1 focus:ring-green-600 focus:outline-none">
+                    <textarea id="postText" rows="3" placeholder="آپ کے ذہن میں کیا ہے؟ گاؤں کی اپڈیٹ پوسٹ کریں..." class="w-full border rounded-lg p-2 text-sm focus:ring-1 focus:ring-green-600 focus:outline-none"></textarea>
                     
                     <div class="flex items-center justify-between border-t pt-2">
                         <label class="cursor-pointer flex items-center space-x-2 space-x-reverse text-gray-600 hover:text-green-700 text-xs font-semibold">
                             <i class="fa-solid fa-image text-green-600 text-lg"></i>
-                            <span>تصویر / ویڈیو شامل کریں</span>
-                            <input type="file" id="postMedia" accept="image/*,video/*" class="hidden">
+                            <span id="fileLabel">تصویر / ویڈیو منتخب کریں</span>
+                            <input type="file" id="postMedia" accept="image/*,video/*" class="hidden" onchange="updateFileName(this)">
                         </label>
-                        <button type="submit" class="bg-green-700 hover:bg-green-800 text-white px-5 py-1.5 rounded-md font-semibold text-xs transition">
+                        <button type="submit" id="submitBtn" class="bg-green-700 hover:bg-green-800 text-white px-5 py-1.5 rounded-md font-semibold text-xs transition">
                             شائع کریں
                         </button>
                     </div>
                 </form>
             </div>
 
-            <!-- Feed Posts Grid -->
-            <div id="feedPosts" class="space-y-4">
-
-                <!-- Official Announcement Post -->
-                <div class="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
-                    <!-- Post Header -->
-                    <div class="p-4 flex items-center justify-between border-b border-gray-100">
-                        <div class="flex items-center space-x-3 space-x-reverse">
-                            <div class="w-10 h-10 rounded-full bg-green-700 text-white flex items-center justify-center font-bold">
-                                اتحاد
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-900 flex items-center">
-                                    اتحاد ویلفیئر فاؤنڈیشن
-                                    <i class="fa-solid fa-circle-check text-blue-500 text-xs mr-1" title="مصدقہ اکاؤنٹ"></i>
-                                </h4>
-                                <p class="text-[11px] text-gray-500">بستی بلوچاں والی کمیٹی • انتظامیہ کا اہم پیغام</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Post Body -->
-                    <div class="p-4 text-sm leading-relaxed text-gray-800 space-y-2">
-                        <p class="font-bold text-green-800">بسم اللہ الرحمن الرحیم - انتہائی اہم اور ضروری اعلان</p>
-                        <p>اتحاد ویلفیئر فاؤنڈیشن (بستی بلوچاں والی کمیٹی) کے تمام احباب اور ممبرانِ گرامی کے لیے انتظامی اصول و ضوابط جاری کر دیے گئے ہیں۔ تمام بھائیوں سے التماس ہے کہ تعارف اور اصول والے ٹیب میں جا کر ان کو لازمی پڑھیں۔</p>
-                    </div>
-
-                    <!-- Post Actions (Like / Comment) -->
-                    <div class="border-t border-gray-100 px-4 py-2 flex justify-around text-gray-500 text-xs font-semibold">
-                        <button onclick="toggleLike(this)" class="flex items-center space-x-1 space-x-reverse hover:text-green-700">
-                            <i class="fa-regular fa-thumbs-up text-base"></i>
-                            <span>پسند کریں (<span class="like-count">12</span>)</span>
-                        </button>
-                        <button class="flex items-center space-x-1 space-x-reverse hover:text-green-700">
-                            <i class="fa-regular fa-comment text-base"></i>
-                            <span>تبصرہ کریں</span>
-                        </button>
-                    </div>
-                </div>
-
-            </div>
+            <!-- Feed Posts Loader & Container -->
+            <div id="loading" class="text-center py-6 text-gray-500 font-semibold">پوسٹس لوڈ ہو رہی ہیں...</div>
+            <div id="feedPosts" class="space-y-4"></div>
         </div>
 
-
-        <!-- ================= TAB 2: ABOUT & VERIFICATION ================= -->
+        <!-- TAB 2: ABOUT -->
         <div id="sec-about" class="hidden space-y-4">
-            
-            <!-- Verification Card -->
             <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
                 <div class="flex items-center space-x-3 space-x-reverse mb-4 border-b pb-3">
                     <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold text-xl">
@@ -153,81 +104,42 @@
                         <p class="text-xs text-green-700 font-semibold">اتحاد ویلفیئر فاؤنڈیشن (بستی بلوچاں والی کمیٹی)</p>
                     </div>
                 </div>
-
                 <div class="space-y-3 text-sm text-gray-700 leading-relaxed">
                     <p class="bg-green-50 border-r-4 border-green-600 p-3 rounded">
                         <strong>مقصد:</strong> یہ فاؤنڈیشن ہماری بستی بلوچاں والی کی فلاح و بہبود، تعلیمی، صحتی، اور باہمی تعاون کے امور کو شفاف اور منظم انداز میں چلانے کے لیے قائم کی گئی ہے۔
                     </p>
-
-                    <h4 class="font-bold text-gray-900 pt-2 border-b">بنیادی فلاحی امور:</h4>
-                    <ul class="list-disc list-inside space-y-1 text-xs sm:text-sm text-gray-600">
-                        <li>گاوں میں مساجد، محافل، اور دینی پروگرامز کا اہتمام۔</li>
-                        <li>کل خوانی، دعوت، اور دیگر اجتماعی مواقع پر انتظامی خدمات۔</li>
-                        <li>مستحقین کی بلا تفریق امداد اور راشن کی فراہمی۔</li>
-                        <li>بستی میں صفائی اور دیگر سماجی مسائل کا حل۔</li>
-                    </ul>
                 </div>
             </div>
-
         </div>
 
-
-        <!-- ================= TAB 3: RULES & PRINCIPLES ================= -->
+        <!-- TAB 3: RULES -->
         <div id="sec-rules" class="hidden space-y-4">
-            
             <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
                 <h3 class="font-bold text-lg text-green-800 mb-2 text-center border-b pb-2">
                     انتظامیہ میں شمولیت کے 3 بنیادی اصول
                 </h3>
-                <p class="text-xs text-gray-500 text-center mb-6">
-                    جو بھی بھائی کمیٹی میں خدمات سرانجام دینے کے لیے آگے آنا چاہتا ہے، وہ درج ذیل اصولوں پر لازمی عمل کرے:
-                </p>
-
-                <!-- Rule 1 -->
-                <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-3">
-                    <div class="flex items-center space-x-2 space-x-reverse text-amber-800 font-bold text-base mb-1">
-                        <span class="bg-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
-                        <h4>رضائے الٰہی اور خلوصِ نیت</h4>
+                <div class="space-y-3 mt-4">
+                    <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs sm:text-sm">
+                        <strong>1. اخلاص:</strong> صرف اور صرف اللہ تعالیٰ کی رضا کے لیے خدمت کرنا۔
                     </div>
-                    <p class="text-xs sm:text-sm text-gray-700 pr-8">
-                        آپ کا انتظامیہ میں شامل ہونا صرف اور صرف اللہ تعالیٰ کی رضا کے لیے ہونا چاہیے۔ کسی شخص کو خوش کرنے یا ذاتی مفاد کے لیے نہیں.
-                    </p>
-                </div>
-
-                <!-- Rule 2 -->
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-3">
-                    <div class="flex items-center space-x-2 space-x-reverse text-blue-800 font-bold text-base mb-1">
-                        <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
-                        <h4>بلا تفریق انصاف اور مساوات</h4>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs sm:text-sm">
+                        <strong>2. انصاف:</strong> تمام معاملے میں بلا تفریق مساوات قائم رکھنا۔
                     </div>
-                    <p class="text-xs sm:text-sm text-gray-700 pr-8">
-                        تمام معاملات میں انصاف کے تقاضوں کو پورا کرنا لازمی ہے۔ چاہے سامنے سگا بھائی ہو یا دوست، حق اور انصاف کے معاملے میں سب یکساں ہیں۔
-                    </p>
-                </div>
-
-                <!-- Rule 3 -->
-                <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-3">
-                    <div class="flex items-center space-x-2 space-x-reverse text-green-800 font-bold text-base mb-1">
-                        <span class="bg-green-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span>
-                        <h4>برداشت اور حلم</h4>
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-xs sm:text-sm">
+                        <strong>3. برداشت:</strong> صبر اور حلم کے ساتھ لوگوں کی بات سننا اور حل کرنا۔
                     </div>
-                    <p class="text-xs sm:text-sm text-gray-700 pr-8">
-                        فلاحی امور میں صبر، برداشت اور حوصلہ سب سے اہم ہے۔ کام کے دوران ہر قسم کی بات کو مسکراتے ہوئے برداشت کرنے کا ظرف ہونا چاہیے۔
-                    </p>
                 </div>
-
-                <p class="text-xs text-center text-gray-500 italic mt-4">
-                    اگر میری کسی بات سے کسی بھائی کی دل آزاری ہوئی ہو تو میں تہہِ دل سے معذرت خواہ ہوں۔<br>
-                    <strong>منجانب: اتحاد ویلفیئر فاؤنڈیشن (بستی بلوچاں والی کمیٹی)</strong>
-                </p>
             </div>
-
         </div>
 
     </div>
 
-    <!-- JavaScript Handling -->
+    <!-- JavaScript Logic with Supabase -->
     <script>
+        const SUPABASE_URL = "https://xyjlqphisqakfpnmiuqo.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_bZ51g0UM-u_etT6hPRzrMA_cf2ab2im";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         function switchTab(tabName) {
             document.getElementById('sec-posts').classList.add('hidden');
             document.getElementById('sec-about').classList.add('hidden');
@@ -241,68 +153,124 @@
             document.getElementById('tab-' + tabName).classList.add('active');
         }
 
-        function createPost(e) {
-            e.preventDefault();
-            const title = document.getElementById('postTitle').value;
-            const text = document.getElementById('postText').value;
-            const mediaFile = document.getElementById('postMedia').files[0];
+        function updateFileName(input) {
+            const label = document.getElementById('fileLabel');
+            if (input.files.length > 0) {
+                label.innerText = input.files[0].name;
+            } else {
+                label.innerText = "تصویر / ویڈیو منتخب کریں";
+            }
+        }
 
-            if (!title) return;
-
+        async function fetchPosts() {
+            const loading = document.getElementById('loading');
             const postsContainer = document.getElementById('feedPosts');
-            const postCard = document.createElement('div');
-            postCard.className = "bg-white rounded-lg shadow border border-gray-200 overflow-hidden mb-4";
+            
+            const { data, error } = await supabaseClient
+                .from('posts')
+                .select('*')
+                .order('id', { ascending: false });
 
-            let mediaHTML = '';
-            if (mediaFile) {
-                const mediaURL = URL.createObjectURL(mediaFile);
-                if (mediaFile.type.startsWith('video/')) {
-                    mediaHTML = `<video controls class="w-full max-h-96 object-cover bg-black"><source src="${mediaURL}"></video>`;
-                } else {
-                    mediaHTML = `<img src="${mediaURL}" class="w-full max-h-96 object-cover">`;
-                }
+            loading.style.display = 'none';
+
+            if (error) {
+                console.error("Error fetching posts:", error);
+                postsContainer.innerHTML = `<p class="text-center text-red-500 text-xs">پوسٹس لوڈ نہیں ہو سکیں۔ براے مہربانی SQL Table تشکیل دیکھیں۔</p>`;
+                return;
             }
 
-            postCard.innerHTML = `
-                <div class="p-4 flex items-center justify-between border-b border-gray-100">
-                    <div class="flex items-center space-x-3 space-x-reverse">
-                        <div class="w-10 h-10 rounded-full bg-green-100 text-green-700 flex items-center justify-center font-bold">
-                            <i class="fa-solid fa-user"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-sm text-gray-900">${title}</h4>
-                            <p class="text-[11px] text-gray-500">ابھی شائع ہوا</p>
+            postsContainer.innerHTML = '';
+            data.forEach(post => {
+                const postCard = document.createElement('div');
+                postCard.className = "bg-white rounded-lg shadow border border-gray-200 overflow-hidden mb-4";
+
+                let mediaHTML = '';
+                if (post.media_url) {
+                    if (post.media_type === 'video') {
+                        mediaHTML = `<video controls class="w-full max-h-96 object-cover bg-black"><source src="${post.media_url}"></video>`;
+                    } else {
+                        mediaHTML = `<img src="${post.media_url}" class="w-full max-h-96 object-cover">`;
+                    }
+                }
+
+                postCard.innerHTML = `
+                    <div class="p-4 flex items-center justify-between border-b border-gray-100">
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <div class="w-10 h-10 rounded-full bg-green-100 text-green-700 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-900">${post.title}</h4>
+                                <p class="text-[11px] text-gray-500">${new Date(post.created_at || Date.now()).toLocaleString('ur-PK')}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                ${mediaHTML}
-                <div class="p-4 text-sm text-gray-800">
-                    <p>${text}</p>
-                </div>
-                <div class="border-t border-gray-100 px-4 py-2 flex justify-around text-gray-500 text-xs font-semibold">
-                    <button onclick="toggleLike(this)" class="flex items-center space-x-1 space-x-reverse hover:text-green-700">
-                        <i class="fa-regular fa-thumbs-up text-base"></i>
-                        <span>پسند کریں (<span class="like-count">0</span>)</span>
-                    </button>
-                </div>
-            `;
-
-            postsContainer.prepend(postCard);
-            document.getElementById('postForm').reset();
-            alert('آپ کی پوسٹ کامیابی سے شامل کر دی گئی ہے!');
+                    ${mediaHTML}
+                    <div class="p-4 text-sm text-gray-800">
+                        <p>${post.content || ''}</p>
+                    </div>
+                `;
+                postsContainer.appendChild(postCard);
+            });
         }
 
-        function toggleLike(btn) {
-            const countSpan = btn.querySelector('.like-count');
-            let count = parseInt(countSpan.innerText);
-            if (btn.classList.contains('text-green-700')) {
-                btn.classList.remove('text-green-700');
-                countSpan.innerText = count - 1;
-            } else {
-                btn.classList.add('text-green-700');
-                countSpan.innerText = count + 1;
+        async function handlePostSubmit(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            const title = document.getElementById('postTitle').value;
+            const text = document.getElementById('postText').value;
+            const fileInput = document.getElementById('postMedia');
+            const file = fileInput.files[0];
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = "اپ لوڈ ہو رہا ہے...";
+
+            let media_url = null;
+            let media_type = null;
+
+            if (file) {
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}.${fileExt}`;
+                
+                const { data: storageData, error: storageError } = await supabaseClient
+                    .storage
+                    .from('media')
+                    .upload(fileName, file);
+
+                if (storageError) {
+                    alert("فائل اپ لوڈ کرنے میں مسئلہ آیا: " + storageError.message);
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "شائع کریں";
+                    return;
+                }
+
+                const { data: publicUrlData } = supabaseClient
+                    .storage
+                    .from('media')
+                    .getPublicUrl(fileName);
+
+                media_url = publicUrlData.publicUrl;
+                media_type = file.type.startsWith('video/') ? 'video' : 'image';
             }
+
+            const { error: insertError } = await supabaseClient
+                .from('posts')
+                .insert([{ title: title, content: text, media_url: media_url, media_type: media_type }]);
+
+            if (insertError) {
+                alert("پوسٹ محفوظ نہیں ہو سکی: " + insertError.message);
+            } else {
+                document.getElementById('postForm').reset();
+                document.getElementById('fileLabel').innerText = "تصویر / ویڈیو منتخب کریں";
+                fetchPosts();
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.innerText = "شائع کریں";
         }
+
+        // Initial Load
+        fetchPosts();
     </script>
 </body>
 </html>
