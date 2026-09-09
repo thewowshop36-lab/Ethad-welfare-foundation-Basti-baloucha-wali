@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اتحاد ویلفیئر فاؤنڈیشن - بستی بلوچاں والی</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: 'Noto Naskh Arabic', serif; background-color: #f0f2f5; }
@@ -15,35 +19,55 @@
 </head>
 <body class="text-gray-900 pb-12">
 
-    <!-- Header -->
-    <header class="bg-white shadow sticky top-0 z-50 border-b border-gray-200">
+    <!-- Intro Splash Screen with Logo Video -->
+    <div id="splashScreen" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center transition-opacity duration-700">
+        <video autoplay loop muted playsinline class="w-48 h-48 rounded-full shadow-2xl border-4 border-green-600 mb-4 object-cover">
+            <source src="https://labs.google/fx/tools/flow/shared/video/11fb8df5-8446-4ada-a29e-cb3ed81b3192" type="video/mp4">
+        </video>
+        <h2 class="text-white text-lg font-bold">اتحاد ویلفیئر فاؤنڈیشن</h2>
+        <p class="text-green-400 text-xs mt-1">بستی بلوچاں والی کمیٹی</p>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="bg-white shadow sticky top-0 z-40 border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-14">
             <div class="flex items-center space-x-2 space-x-reverse">
-                <div class="bg-green-700 text-white p-2 rounded-full w-9 h-9 flex items-center justify-center font-bold text-lg shadow">ا</div>
+                <!-- Circular Logo Video in Header -->
+                <div class="w-9 h-9 rounded-full overflow-hidden border-2 border-green-600 shadow flex items-center justify-center bg-black">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://labs.google/fx/tools/flow/shared/video/11fb8df5-8446-4ada-a29e-cb3ed81b3192" type="video/mp4">
+                    </video>
+                </div>
                 <div>
                     <h1 class="text-base font-bold text-green-800 leading-tight">اتحاد ویلفیئر فاؤنڈیشن</h1>
                     <p class="text-[10px] text-gray-500">بستی بلوچاں والی کمیٹی</p>
                 </div>
             </div>
-            <button onclick="switchTab('posts')" class="bg-green-700 text-white px-3 py-1.5 rounded-full text-xs font-semibold shadow">
+
+            <button onclick="switchTab('posts')" class="bg-green-700 text-white px-3 py-1.5 rounded-full text-xs font-semibold shadow hover:bg-green-800 transition">
                 <i class="fa-solid fa-pen ml-1"></i> پوسٹ کریں
             </button>
         </div>
 
-        <nav class="flex justify-around bg-white border-t border-gray-200 text-gray-600 font-semibold text-sm">
-            <button onclick="switchTab('posts')" id="tab-posts" class="tab-btn active py-3 flex-1 text-center">پوسٹس (Feed)</button>
-            <button onclick="switchTab('about')" id="tab-about" class="tab-btn py-3 flex-1 text-center">تعارف و تصدیق</button>
-            <button onclick="switchTab('rules')" id="tab-rules" class="tab-btn py-3 flex-1 text-center">اصول و ضوابط</button>
+        <!-- Navigation Tabs -->
+        <nav class="flex justify-around bg-white border-t border-gray-200 text-gray-600 font-semibold text-xs sm:text-sm">
+            <button onclick="switchTab('posts')" id="tab-posts" class="tab-btn active py-3 flex-1 text-center">پوسٹس</button>
+            <button onclick="switchTab('team')" id="tab-team" class="tab-btn py-3 flex-1 text-center">عہدیداران</button>
+            <button onclick="switchTab('blood')" id="tab-blood" class="tab-btn py-3 flex-1 text-center">بلڈ ڈونرز</button>
+            <button onclick="switchTab('about')" id="tab-about" class="tab-btn py-3 flex-1 text-center">تعارف</button>
+            <button onclick="switchTab('rules')" id="tab-rules" class="tab-btn py-3 flex-1 text-center">اصول</button>
         </nav>
     </header>
 
+    <!-- Main Container -->
     <div class="max-w-2xl mx-auto px-2 sm:px-4 mt-4">
-        <!-- Posts Feed -->
+
+        <!-- TAB 1: POSTS FEED -->
         <div id="sec-posts">
             <div class="bg-white rounded-lg shadow p-4 mb-4 border border-gray-200">
                 <form id="postForm" onsubmit="handlePostSubmit(event)" class="space-y-3">
                     <input type="text" id="postTitle" required placeholder="پوسٹ کرنے والے کا نام" class="w-full border rounded-lg p-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-600">
-                    <textarea id="postText" rows="3" placeholder="آپ کے ذہن میں کیا ہے؟..." class="w-full border rounded-lg p-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-600"></textarea>
+                    <textarea id="postText" rows="3" placeholder="آپ کے ذہن میں کیا ہے؟ گاؤں کی اپڈیٹ پوسٹ کریں..." class="w-full border rounded-lg p-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-600"></textarea>
                     
                     <div class="flex items-center justify-between border-t pt-2">
                         <label class="cursor-pointer flex items-center space-x-2 space-x-reverse text-gray-600 text-xs font-semibold">
@@ -51,7 +75,7 @@
                             <span id="fileLabel">تصویر / ویڈیو منتخب کریں</span>
                             <input type="file" id="postMedia" accept="image/*,video/*" class="hidden" onchange="document.getElementById('fileLabel').innerText=this.files[0].name">
                         </label>
-                        <button type="submit" id="submitBtn" class="bg-green-700 text-white px-5 py-1.5 rounded-md font-semibold text-xs">شائع کریں</button>
+                        <button type="submit" id="submitBtn" class="bg-green-700 text-white px-5 py-1.5 rounded-md font-semibold text-xs hover:bg-green-800 transition">شائع کریں</button>
                     </div>
                 </form>
             </div>
@@ -60,21 +84,70 @@
             <div id="feedPosts" class="space-y-4"></div>
         </div>
 
-        <!-- About Tab -->
-        <div id="sec-about" class="hidden">
+        <!-- TAB 2: TEAM / MEMBERS -->
+        <div id="sec-team" class="hidden space-y-4">
             <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
-                <h3 class="font-bold text-lg text-gray-900 border-b pb-2 mb-3">سرکاری تصدیق و تعارف</h3>
-                <p class="text-sm text-gray-700">یہ فاؤنڈیشن ہماری بستی بلوچاں والی کی فلاح و بہبود، تعلیمی اور صحتی تعاون کے لیے قائم کی گئی ہے۔</p>
+                <h3 class="font-bold text-lg text-green-800 border-b pb-2 mb-4 text-center">کمیٹی کے عہدیداران و لیڈرشپ</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="bg-green-50 p-3 rounded-lg border border-green-200 flex items-center space-x-3 space-x-reverse">
+                        <div class="w-10 h-10 rounded-full bg-green-700 text-white flex items-center justify-center font-bold">ص</div>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-900">صدر کمیٹی</h4>
+                            <p class="text-xs text-gray-600">اتحاد ویلفیئر فاؤنڈیشن</p>
+                        </div>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded-lg border border-green-200 flex items-center space-x-3 space-x-reverse">
+                        <div class="w-10 h-10 rounded-full bg-green-700 text-white flex items-center justify-center font-bold">س</div>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-900">جنرل سیکرٹری</h4>
+                            <p class="text-xs text-gray-600">اتحاد ویلفیئر فاؤنڈیشن</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-xs text-center text-gray-500 mt-4">(عہدیداران کے نام جلد مکمل لسٹ میں اپڈیٹ کر دیے جائیں گے)</p>
             </div>
         </div>
 
-        <!-- Rules Tab -->
+        <!-- TAB 3: BLOOD DONORS -->
+        <div id="sec-blood" class="hidden space-y-4">
+            <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
+                <div class="flex items-center space-x-2 space-x-reverse border-b pb-2 mb-4">
+                    <i class="fa-solid fa-droplet text-red-600 text-xl"></i>
+                    <h3 class="font-bold text-lg text-gray-900">بستی کے بلڈ ڈونرز (خون کے گروپس)</h3>
+                </div>
+                <p class="text-xs text-gray-600 mb-4">کسی بھی ایمرجنسی کی صورت میں اپنی بستی کے بلڈ ڈونرز سے رابطہ کریں:</p>
+                <div class="space-y-2">
+                    <div class="bg-red-50 p-3 rounded-lg border border-red-200 flex justify-between items-center text-xs">
+                        <div>
+                            <p class="font-bold text-gray-800">بلڈ ڈونر لسٹ</p>
+                            <p class="text-gray-500">بستی بلوچاں والی</p>
+                        </div>
+                        <span class="bg-red-600 text-white px-3 py-1 rounded-full font-bold">O+ / A+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: ABOUT -->
+        <div id="sec-about" class="hidden">
+            <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
+                <h3 class="font-bold text-lg text-gray-900 border-b pb-2 mb-3">سرکاری تصدیق و تعارف</h3>
+                <p class="text-sm text-gray-700 leading-relaxed">یہ فاؤنڈیشن ہماری بستی بلوچاں والی کی فلاح و بہبود، تعلیمی، صحتی اور باہمی تعاون کے امور کو منظم انداز میں چلانے کے لیے قائم کی گئی ہے۔</p>
+            </div>
+        </div>
+
+        <!-- TAB 5: RULES -->
         <div id="sec-rules" class="hidden">
             <div class="bg-white rounded-lg shadow p-5 border border-gray-200">
                 <h3 class="font-bold text-lg text-green-800 border-b pb-2 mb-3 text-center">انتظامیہ کے 3 بنیادی اصول</h3>
-                <p class="text-sm text-gray-700">1. اخلاص (رضائے الٰہی)<br>2. بلا تفریق انصاف<br>3. صبر اور برداشت</p>
+                <div class="space-y-2 text-xs sm:text-sm text-gray-700">
+                    <div class="p-2 bg-amber-50 rounded"><strong>1. اخلاص:</strong> صرف اور صرف اللہ تعالیٰ کی رضا کے لیے خدمت۔</div>
+                    <div class="p-2 bg-blue-50 rounded"><strong>2. انصاف:</strong> تمام معاملات میں بلا تفریق مساوات۔</div>
+                    <div class="p-2 bg-green-50 rounded"><strong>3. برداشت:</strong> صبر اور حلم کے ساتھ خدمت سرانجام دینا۔</div>
+                </div>
             </div>
         </div>
+
     </div>
 
     <script>
@@ -82,11 +155,22 @@
         const SUPABASE_KEY = "sb_publishable_bZ51g0UM-u_etT6hPRzrMA_cf2ab2im";
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        // Hide Splash Screen after 2.5 seconds
+        setTimeout(() => {
+            const splash = document.getElementById('splashScreen');
+            if (splash) {
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.display = 'none', 700);
+            }
+        }, 2500);
+
         function switchTab(tabName) {
-            document.getElementById('sec-posts').classList.add('hidden');
-            document.getElementById('sec-about').classList.add('hidden');
-            document.getElementById('sec-rules').classList.add('hidden');
+            ['posts', 'team', 'blood', 'about', 'rules'].forEach(t => {
+                document.getElementById('sec-' + t).classList.add('hidden');
+                document.getElementById('tab-' + t).classList.remove('active');
+            });
             document.getElementById('sec-' + tabName).classList.remove('hidden');
+            document.getElementById('tab-' + tabName).classList.add('active');
         }
 
         async function fetchPosts() {
@@ -100,7 +184,6 @@
 
             postsContainer.innerHTML = '';
             for (let post of posts) {
-                // Fetch comments count
                 const { data: comments } = await supabaseClient.from('comments').select('*').eq('post_id', post.id);
                 const commentsCount = comments ? comments.length : 0;
 
@@ -140,15 +223,15 @@
 
                     <!-- Like / Comment / Share Bar -->
                     <div class="border-t border-gray-100 px-2 py-2 flex justify-around text-gray-600 text-xs font-semibold bg-gray-50">
-                        <button onclick="likePost(${post.id}, ${post.likes_count || 0})" class="flex items-center space-x-1 space-x-reverse hover:text-green-700">
+                        <button onclick="likePost(${post.id}, ${post.likes_count || 0})" class="flex items-center space-x-1 space-x-reverse hover:text-green-700 transition">
                             <i class="fa-regular fa-thumbs-up text-base"></i>
-                            <span>لائک (${post.likes_count || 0})</span>
+                            <span>لائک (<span id="like-count-${post.id}">${post.likes_count || 0}</span>)</span>
                         </button>
-                        <button onclick="toggleCommentBox(${post.id})" class="flex items-center space-x-1 space-x-reverse hover:text-green-700">
+                        <button onclick="toggleCommentBox(${post.id})" class="flex items-center space-x-1 space-x-reverse hover:text-green-700 transition">
                             <i class="fa-regular fa-comment text-base"></i>
                             <span>کمنٹ (${commentsCount})</span>
                         </button>
-                        <button onclick="sharePost('${post.title}')" class="flex items-center space-x-1 space-x-reverse hover:text-green-700">
+                        <button onclick="sharePost('${post.title}')" class="flex items-center space-x-1 space-x-reverse hover:text-green-700 transition">
                             <i class="fa-solid fa-share text-base"></i>
                             <span>شیئر</span>
                         </button>
@@ -169,8 +252,15 @@
         }
 
         async function likePost(postId, currentLikes) {
-            const { error } = await supabaseClient.from('posts').update({ likes_count: currentLikes + 1 }).eq('id', postId);
-            if (!error) fetchPosts();
+            const countSpan = document.getElementById(`like-count-${postId}`);
+            const newLikes = currentLikes + 1;
+            if (countSpan) countSpan.innerText = newLikes;
+
+            const { error } = await supabaseClient.from('posts').update({ likes_count: newLikes }).eq('id', postId);
+            if (error) {
+                console.error("Like Error:", error);
+                if (countSpan) countSpan.innerText = currentLikes; // revert if failed
+            }
         }
 
         function toggleCommentBox(postId) {
@@ -224,4 +314,3 @@
     </script>
 </body>
 </html>
-         
