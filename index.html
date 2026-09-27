@@ -16,8 +16,73 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: 'Noto Naskh Arabic', serif; background-color: #f0f2f5; }
+        
         .tab-btn.active { color: #15803d; border-bottom: 3px solid #15803d; }
-    </style>
+    
+    
+    body { font-family: 'Noto Naskh Arabic', serif; background-color: #f0f2f5; }
+    .tab-dev.active { color: #15803d; border-bottom: 3px solid #15803d; }
+
+    /* --- यहाँ से नया CSS डिज़ाइन पेस्ट करें --- */
+    .ring-container {
+        position: relative;
+        width: 380px;
+        height: 380px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(45deg, #00f2fe, #4facfe, #ff0844, #ffb199);
+        animation: rotateRing 4s linear infinite;
+    }
+    @keyframes rotateRing {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .card {
+        position: absolute;
+        width: 368px;
+        height: 368px;
+        background-color: #e4e7eb;
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        box-shadow: inset 8px 8px 16px #c5c8cb, inset -8px -8px 16px #ffffff;
+    }
+    .input-box {
+        position: relative;
+        width: 230px;
+        margin-bottom: 12px;
+    }
+    .input-box input {
+        width: 100%;
+        padding: 9px 12px 9px 30px;
+        border: none;
+        outline: none;
+        background: #e4e7eb;
+        font-size: 11px;
+        border-radius: 20px;
+        box-shadow: inset 4px 4px 8px #c5c8cb, inset -4px -4px 8px #ffffff;
+        color: #333;
+    }
+    .btn-register {
+        width: 230px;
+        padding: 9px;
+        border: none;
+        outline: none;
+        background: #e4e7eb;
+        color: #333;
+        font-weight: bold;
+        font-size: 11px;
+        border-radius: 20px;
+        cursor: pointer;
+        box-shadow: 4px 4px 8px #c5c8cb, -4px -4px 8px #ffffff;
+    }
+</style>
+
 </head>
 <body class="text-gray-900 pb-12">
 
@@ -64,6 +129,43 @@
 
     <!-- Main Container -->
     <div class="max-w-2xl mx-auto px-2 sm:px-4 mt-4">
+<!-- لاگ ان اور رجسٹر فارم کا نیا ڈیزائن -->
+<div style="display: flex; justify-content: center; align-items: center; padding: 20px;">
+    <div class="ring-container">
+        <div class="card">
+            <h2>Create Account</h2>
+            <p>Join us today</p>
+            
+            <form>
+                <!-- Username -->
+                <div class="input-box">
+                    <i class="fa-solid fa-user" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 10px; color: #888;"></i>
+                    <input type="text" placeholder="Username">
+                </div>
+
+                <!-- Email -->
+                <div class="input-box">
+                    <i class="fa-solid fa-envelope" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 10px; color: #888;"></i>
+                    <input type="email" placeholder="Email">
+                </div>
+
+                <!-- Password -->
+                <div class="input-box">
+                    <i class="fa-solid fa-lock" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 10px; color: #888;"></i>
+                    <input type="password" id="password" placeholder="Password">
+                    <i class="fa-solid fa-eye toggle-password" id="toggleIcon" onclick="showPassword('password', this)" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #888; font-size: 11px;"></i>
+                </div>
+
+                <!-- Register Button -->
+                <button type="submit" class="btn-register">REGISTER</button>
+            </form>
+
+            <div style="font-size: 10px; color: #666; margin-top: 12px;">
+                Already have an account? <a href="#" style="color: #007bff; text-decoration: none;">Login</a>
+            </div>
+        </div>
+    </div>
+</div>
 
         <!-- Admin Control Banner -->
         <div id="adminPanelBanner" class="hidden bg-amber-100 border border-amber-300 text-amber-900 p-3 rounded-lg mb-4 text-xs flex justify-between items-center">
@@ -523,6 +625,22 @@
 
         fetchPosts();
         fetchDynamicSettings();
+            <!-- یہ جاوا اسکریپٹ کوڈ فائل کے بالکل آخر میں </body> سے ٹھیک اوپر پیسٹ کریں -->
+    <script>
+        function showPassword(inputID, icon) {
+            const input = document.getElementById(inputID);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+    </script>
+
     </script>
 </body>
 </html>
